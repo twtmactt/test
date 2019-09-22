@@ -1,0 +1,88 @@
+bash <(curl -s -L https://git.io/v2ray.sh )
+bash <(curl -L -s https://install.direct/go.sh)
+vi /etc/v2ray/config.json
+
+{
+    "log": {
+        "access": "/var/log/v2ray/access.log",
+        "error": "/var/log/v2ray/error.log",
+        "loglevel": "warning"
+    },
+    "inbound": {
+        "port": 27528,
+        "protocol": "vmess",
+        "settings": {
+            "udp": true,
+            "clients": [
+                {
+                    "id": "ddb786ad-cdff-4d34-b955-f3ef52d1e563",
+                    "level": 1,
+                    "alterId": 64
+                }
+            ]
+        }
+    },
+    "outbound": {
+        "protocol": "freedom",
+        "settings": {}
+    },
+    "inboundDetour": [
+        {
+            "protocol": "shadowsocks",
+            "port": 8989,
+            "settings": {
+                "method": "chacha20-ietf-poly1305",
+                "password": "tw000000",
+                "udp": true,
+                "level": 1,
+                "ota": false
+            }
+        }
+    ],
+    "outboundDetour": [
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "blocked"
+        }
+    ],
+    "routing": {
+        "strategy": "rules",
+        "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "ip": [
+                        "0.0.0.0/8",
+                        "10.0.0.0/8",
+                        "100.64.0.0/10",
+                        "127.0.0.0/8",
+                        "169.254.0.0/16",
+                        "172.16.0.0/12",
+                        "192.0.0.0/24",
+                        "192.0.2.0/24",
+                        "192.168.0.0/16",
+                        "198.18.0.0/15",
+                        "198.51.100.0/24",
+                        "203.0.113.0/24",
+                        "::1/128",
+                        "fc00::/7",
+                        "fe80::/10"
+                    ],
+                    "outboundTag": "blocked"
+                }
+            ]
+        }
+    }
+}
+
+
+
+firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --reload
+
+(for centos : systemctl enable v2ray)
+$sudo apt-get remove vim-common
+$sudo apt-get install vim
+
+wget -N --no-check-certificate "https://raw.githubusercontent.com/dlxg/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
