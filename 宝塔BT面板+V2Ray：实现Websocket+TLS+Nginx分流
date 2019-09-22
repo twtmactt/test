@@ -25,7 +25,7 @@
 	回到「首页」，重启「Nignx服务」
 	BT面板「安全」，防火墙端口放行，新增你的V2Ray端口
 
-4.修改V2Ray配置文件
+4.修改V2Ray配置文件(vi /etc/v2ray/config.json)
    {
   "log" : {
     "access": "/var/log/v2ray/access.log",
