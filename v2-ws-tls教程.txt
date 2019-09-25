@@ -1,0 +1,77 @@
+1、先装 v2，官方脚本
+    bash <(curl -L -s https://install.direct/go.sh)
+    nano /etc/v2ray/config.json
+{
+  "inbounds": [
+    {
+      "port": 12345,
+      "listen":"127.0.0.1",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "6768f908-d39f-424f-b3e7-c1b6b10fdf72",
+            "alterId": 64
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+        "path": "/"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ]
+}
+    service v2ray restart
+	service v2ray status
+
+2、安装caddy ，用它申请证书和反代。这里只勾选hook.service，hook.service是caddy的自启服务，开机实现自启
+    curl https://getcaddy.com | bash -s personal hook.service
+	caddy -service install -agree -email z@z.com -conf /usr/local/bin/Caddyfile
+	
+	cd /usr/local/bin  进入 caddy 安装目录，然后 nano Caddyfile 写配置支持tls
+hostloc.xyz {
+    tls    z@z.com
+    proxy /  127.0.0.1:12345  {
+    websocket
+    header_upstream -Origin
+  }
+}
+    ./caddy
+	caddy -service status
+
+3、客户端设置
+地址：就是你的域名，端口是443，ID是你上面那一串，额外ID是0，传输协议是ws，
+其它默认，最下面底层传输安全记得把tls选上。完事。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
