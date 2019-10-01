@@ -1,0 +1,19 @@
+ubuntu/ocp
+
+#停止firewall
+systemctl stop firewalld.service
+ 
+#禁止firewall开机启动
+systemctl disable firewalld.service
+ 
+#关闭iptables
+service iptables stop
+ 
+#去掉iptables开机启动
+chkconfig iptables off
+
+CentOS系统需要以下操作
+1. 切换成 root
+2. 重新生成 grub2.cfg， 命令如下：
+grub2-mkconfig -o /boot/grub2/grub.cfg
+3. 跑你要跑的 bbr.sh
