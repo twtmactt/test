@@ -1,0 +1,89 @@
+域名或ip打不开注意防火墙（甲骨文）
+关闭iptabls 或者 firewalld 
+#停止firewall
+systemctl stop firewalld.service
+ 
+#禁止firewall开机启动
+systemctl disable firewalld.service
+ 
+#关闭iptables
+service iptables stop
+ 
+#去掉iptables开机启动
+chkconfig iptables off
+
+
+1、安装宝塔
+安装完成后，进入面板，点击左侧软件商店，然后安装PHP 5.6+、Mysql、Nginx、Redis。
+
+2、上传Nextcloud程序
+#进入站点根目录，自行修改路径
+cd /www/wwwroot/www.moerats.com
+#下载最新版程序，记得随时将链接换成最新版的下载地址
+wget https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip
+#解压并移动到根目录
+unzip nextcloud-*.zip && rm -rf nextcloud-*.zip index.html
+mv nextcloud/* . && rm -rf nextcloud
+chown -R www:www ./
+
+3、伪静态设置
+点击站点设置-伪静态设置，添加以下代码：
+location / {
+    rewrite ^ /index.php$request_uri;
+}
+
+location ~ ^\/(?:build|tests|config|lib|3rdparty|templates|data)\/ {
+    deny all;
+}
+
+location ~ ^\/(?:\.|autotest|occ|issue|indie|db_|console) {
+    deny all;
+}
+
+location ~ ^\/(?:updater|oc[ms]-provider)(?:$|\/) {
+    try_files $uri/ =404;
+    index index.php;
+}
+
+location ~ \.(?:css|js|woff2?|svg|gif|map)$ {
+    try_files $uri /index.php$request_uri;
+    add_header Cache-Control "public, max-age=15778463";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header X-Download-Options noopen;
+    add_header X-Permitted-Cross-Domain-Policies none;
+    add_header Referrer-Policy no-referrer;
+
+    access_log off;
+}
+
+location ~ \.(?:png|html|ttf|ico|jpg|jpeg)$ {
+    try_files $uri /index.php$request_uri;
+    access_log off;
+}
+
+4、新增Redis缓存配置
+使用宝塔点击左侧文件，找到网站根目录的config/config.php配置文件，在后面新增以下代码：
+'memcache.locking' => '\OC\Memcache\Redis',
+'memcache.distributed' => '\OC\Memcache\Redis',
+'redis' => [
+     'host' => '127.0.0.1',
+     'port' => 6379,
+],
+
+5、安装Nextcloud
+打开网址，选择Mysql数据库，填上数据库信息，并设置管理员账号和密码后，点击安装即可！到这里属于我们的私有云盘Nextcloud就搭建好了。
+
+
+
+
+
+
+
+
+
+
+
+
+
