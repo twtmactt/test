@@ -1,0 +1,213 @@
+以Debian系为例，升级源并安装软件
+
+$ apt-get update && apt-get install -y wget vim
+执行此命令等候自动安装 Docker
+
+$ wget -qO- get.docker.com | bash
+说明：推荐使用 KVM 架构的 VPS，OpenVZ 架构的 VPS 不支持安装 Docker，另外 CentOS 8 不支持此脚本支持来安装 Docker。
+
+1.2 对 Docker 的一些命令操作
+查看 Docker 安装版本等信息
+
+$ docker version
+启动 Docker 服务
+
+$ systemctl start docker
+查看 Docker 运行状态
+
+$ systemctl status docker
+将 Docker 服务加入开机自启动
+
+$ systemctl enable docker
+
+二、用 Docker 部署 Shadowsocks-libev + v2ray-plugin over websocket (HTTP)
+2.1 创建配置文件
+在 /etc 目录下创建 shadowsocks-libev 目录
+
+$ mkdir /etc/shadowsocks-libev
+切换目录至 /etc/shadowsocks-libev
+
+$ cd /etc/shadowsocks-libev
+创建并开始编辑名为 config.json 的配置文件
+
+$ vim config.json
+以下为配置文件内容示例，添加后保存并退出
+
+{
+"server":"0.0.0.0",
+"server_port":9000,
+"method":"aes-256-gcm",
+"timeout":300,
+"password":"password0",
+"fast_open":false,
+"nameserver":"8.8.8.8",
+"mode":"tcp_and_udp",
+"plugin":"v2ray-plugin",
+"plugin_opts":"server"
+}
+说明：server 后面默认填 0.0.0.0，请不要修改。关于更多参数用法和说明请参考：这个链接
+值得注意的是，如果把 plugin_opts 改为
+
+"plugin_opts":"server;mux=0"
+后就可以用 Quantumult X。
+
+2.2 用 Docker 结合上面的配置文件创建并启动容器
+命令如下：
+
+$ docker run -d --name ss-libev --restart always -p 9000:9000 -p 9000:9000/udp -v /etc/shadowsocks-libev:/etc/shadowsocks-libev teddysun/shadowsocks-libev
+参数解释：
+docker run：开始运行一个容器
+-d 参数：容器以后台运行并输出容器ID
+–name 参数：给容器分配一个识别符，方便将来的启动，停止，删除等操作
+–restart 参数：配置容器启动类型，always 即为 docker 服务重新启动时自动启动本容器
+-p 参数：容器的 9000 端口映射到本机的 9000 端口。默认是 TCP 映射，当需要 UDP 映射时候，那就再追加一次 UDP 的映射。冒号后面是容器端口，冒号前面是宿主机端口，可以写成一致，也可以写成不一致
+-v 参数：挂载卷（volume），冒号后面是容器的路径，冒号前面是宿主机的路径，可以写成一致，也可以写成不一致
+teddysun/shadowsocks-libev：这是从 docker hub 下载回来的镜像完整路径名
+
+2.3 后期容器处理常用命令
+前面 docker run 后面 –name ss-libev 中的 ss-libev 为 $name，其代表容器识别符，也就是 $name=ss-libev。
+查看容器在线状态及大小
+
+$ docker ps -as
+查看容器的运行输出日志
+
+$ docker logs $name
+重新启动容器，一般在修改除端口外的配置后使用使修改生效
+
+$ docker restart $name
+停止容器的运行
+
+$ docker stop $name
+移除容器
+
+$ docker rm $name
+查看 docker 容器占用 CPU，内存等信息
+
+$ docker stats --no-stream
+
+
+三、用 Docker 部署 Shadowsocks-libev + v2ray-plugin over websocket (HTTPS)
+3.1 用 acme.sh 脚本申请 SSL 证书
+此处需要用到一个你拥有的域名。参考：这篇文章。下面默认你已经获取到 Clouflare API key，并且也已经安装好 acme.sh 脚本。
+
+3.2 创建配置文件
+在 /etc 目录下创建 shadowsocks-libev 目录
+
+$ mkdir /etc/shadowsocks-libev
+切换目录至 /etc/shadowsocks-libev
+
+$ cd /etc/shadowsocks-libev
+创建 config.json 的配置文件
+
+$ vim config.json
+以下为配置文件内容示例，添加后保存并退出
+
+{
+"server":"0.0.0.0",
+"server_port":9000,
+"password":"password0",
+"timeout":300,
+"method":"aes-256-gcm",
+"fast_open":false,
+"nameserver":"8.8.8.8",
+"mode":"tcp_and_udp",
+"plugin":"v2ray-plugin",
+"plugin_opts":"server;tls;host=mydomain.me;cert=/etc/shadowsocks-libev/plugin.crt;key=/etc/shadowsocks-libev/plugin.key"
+}
+说明：server 后面的 0.0.0.0 不要修改，plugin_opts 后面的配置除了域名外也不要修改
+
+3.3 安装证书到 Shadowsocks-libev 配置文件的目录 /etc/shadowsocks-libev
+假设你的是域名是 mydomain.me，且已经在 Cloudflare 上设置好 A 记录解析
+CF_Key 的值替换成你自己的 Cloudflare API Key
+
+$ export CF_Key="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+CF_Email 的值替换成你自己的 Cloudflare 注册邮箱账号名
+
+$ export CF_Email="youremail@gmail.com"
+用 acme.sh 脚本申请证书
+
+$ acme.sh --issue --dns dns_cf -d mydomain.me -k ec-256
+安装证书到 Shadowsocks-libev 配置文件的目录 /etc/shadowsocks-libev
+
+$ acme.sh --installcert -d mydomain.me --fullchain-file /etc/shadowsocks-libev/plugin.crt --key-file /etc/shadowsocks-libev/plugin.key --ecc
+3.4 用 Docker 结合上面的配置文件创建并启动容器
+$ docker run -d --name ss-libev --restart always -p 9000:9000 -p 9000:9000/udp -v /etc/shadowsocks-libev:/etc/shadowsocks-libev teddysun/shadowsocks-libev
+四、用 Docker 部署 Shadowsocks-libev + v2ray-plugin over websocket (HTTP) + TLS + caddy + CDN
+4.1 申请 SSL 证书以及安装证书
+参考上面的 3.1 和 3.3 章节。
+
+4.2 创建配置文件
+在 /etc 目录下创建 shadowsocks-libev 目录
+
+$ mkdir /etc/shadowsocks-libev
+切换目录至 /etc/shadowsocks-libev
+
+$ cd /etc/shadowsocks-libev
+创建 config.json 的配置文件
+
+$ vim config.json
+以下为配置文件内容示例，添加后保存并退出
+
+{
+"server":"127.0.0.1",
+"server_port":9000,
+"password":"password0",
+"timeout":300,
+"method":"aes-256-gcm",
+"fast_open":false,
+"nameserver":"8.8.8.8",
+"mode":"tcp_and_udp",
+"plugin":"v2ray-plugin",
+"plugin_opts":"server;path=/ray"
+}
+说明：因为要监听本地，所以 server 后面地址填 127.0.0.1， 9000 端口不对外开放，此处只是在 websocket 的配置上加了个 path 参数（后面的值可以更改，比如可以改为 path=/teddysun），tls 则要由 caddy 来提供。
+
+4.3 用 Docker 结合上面的配置文件创建并启动容器
+命令如下：
+
+$ docker run -d --name ss-libev --restart always --net host -v /etc/shadowsocks-libev:/etc/shadowsocks-libev teddysun/shadowsocks-libev
+说明：此处不用端口映射，直接使用
+
+--net host
+参数配置，让容器跟宿主机共用网络。
+
+4.4 安装 caddy
+执行下面一条命令安装 caddy，也就是以个人身份申请使用 caddy 的二进制文件，并把它放到 /usr/local/bin 目录下
+
+$ wget -qO- https://getcaddy.com | bash -s personal
+4.5 配置 caddy 目录
+在/root目录下创建 caddy 目录并切换至此
+
+$ cd /root && mkdir caddy && cd caddy
+安装证书和 key 到 /root/caddy 目录下
+
+$ acme.sh --installcert -d mydomain.me --fullchain-file /root/caddy/caddy.crt --keyfile /root/caddy/caddy.key --ecc
+4.6 创建 caddy 配置文件
+创建文件并开始编辑 caddy 配置文件 caddy.conf
+
+$ vim caddy.conf
+下面是 caddy 配置文件示例，添加后保存并退出
+
+mydomain.me:443 {
+  gzip
+  tls /root/caddy/caddy.crt /root/caddy/caddy.key
+  log /root/caddy/caddy.log
+  proxy / https://www.baidu.com
+  proxy /ray 127.0.0.1:9000 {
+    websocket
+    header_upstream -Origin
+  }
+}
+说明：此处只要关注路径和端口号，9000 是 /etc/shadowsocks-libev/config.json 里配置的，/ray 是配置文件内 plugin_opts 后面的 path=/ray，请注意替换。另 caddy 需要监听 443 端口，请确保 VPS 的 443 端口没有被占用。
+
+4.7 运行 caddy
+后台运行 caddy
+
+$ nohup caddy -conf /root/caddy/caddy.conf &
+可以查看 caddy 运行产生的日志
+
+$ cat /root/caddy/caddy.log
+确认 caddy 运行状态，下面的命令有输出则表示正常
+
+$ ps -ef | grep -v grep | grep caddy
+
