@@ -1,0 +1,104 @@
+yum -y update
+yum -y install epel-release
+yum -y install wget git unzip gcc gcc-c++ openssl-devel nginx
+
+systemctl start nginx
+systemctl enable nginx.service
+systemctl stop firewalld # 关闭防火墙
+
+wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/aria2.sh && chmod +x aria2.sh && bash aria2.sh
+
+mkdir -p /data/Download（并修改下载目录）
+
+yum -y install unzip
+mkdir -p /data/www/ariang
+cd /data/www/ariang
+wget https://github.com/mayswind/AriaNg-DailyBuild/archive/master.zip && unzip master.zip
+mv AriaNg-DailyBuild-master/* .
+rm -rf master.zip AriaNg-DailyBuild-master
+
+cd /etc/nginx/conf.d
+touch ariang.conf
+yum -y install vim
+
+nginx 配置
+server {
+    listen 80;
+    server_name <IP_ADDRESS>;
+
+    location / {
+        root   /data/www/ariang;
+        index  index.html index.htm;
+    }
+}
+
+systemctl reload nginx
+
+没有安装 fuse ,自行安装就可以了 yum -y install fuse
+curl https://rclone.org/install.sh | sudo bash
+
+# 新建本地文件夹，路径自己定
+mkdir -p /data/GoogleDrive
+
+
+wget https://blog.codesofun.com/scripts/rcloned（见文档rcloned） && vim rcloned
+#然后修改文件内如下内容
+NAME=""  #[name]
+REMOTE=''  #[google drive dir]
+LOCAL=''  #[mount dir]
+
+mv rcloned /etc/init.d/rcloned
+chmod +x /etc/init.d/rcloned
+
+
+bash /etc/init.d/rcloned status
+
+
+然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。
+
+vim /root/.aria2/aria2.conf
+
+on-download-complete=/root/rcloneupload.sh
+/etc/init.d/aria2 restart
+
+
+vim /root/rcloneupload.sh
+将之前的上传脚本清空后重新编辑
+
+#!/bin/bash
+
+filepath=$3	 #取文件原始路径，如果是单文件则为/Download/a.mp4，如果是文件夹则该值为文件夹内第一个文件比如/Download/a/1.mp4
+path=${3%/*}	 #取文件根路径，如把/Download/a/1.mp4变成/Download/a
+downloadpath='/data/Download'	#Aria2下载目录
+name='codesofun' #配置Rclone时的name
+folder='/share'	 #网盘里的文件夹，如果是根目录直接留空
+MinSize='10k'	 #限制最低上传大小，默认10k，BT下载时可防止上传其他无用文件。会删除文件，谨慎设置。
+MaxSize='15G'	 #限制最高文件大小，默认15G，OneDrive上传限制。
+
+if [ $2 -eq 0 ]; then exit 0; fi
+
+while true; do
+if [ "$path" = "$downloadpath" ] && [ $2 -eq 1 ]	#如果下载的是单个文件
+    then
+    rclone move -v "$filepath" ${name}:${folder} --min-size $MinSize --max-size $MaxSize
+    rm -vf "$filepath".aria2	#删除残留的.aria.2文件
+    exit 0
+elif [ "$path" != "$downloadpath" ]	#如果下载的是文件夹
+    then
+    while [[ "`ls -A "$path/"`" != "" ]]; do
+    rclone move -v "$path" ${name}:/${folder}/"${path##*/}" --min-size $MinSize --max-size $MaxSize --delete-empty-src-dirs
+    rclone delete -v "$path" --max-size $MinSize	#删除多余的文件
+    rclone rmdirs -v "$downloadpath" --leave-root	#删除空目录，--delete-empty-src-dirs 参数已实现，加上无所谓。
+    done
+    rm -vf "$path".aria2	#删除残留的.aria2文件
+    exit 0
+fi
+done
+需要修改几个地方：
+
+downloadpath：填写 aria2 的下载目录
+name：填写 rclone 配置的名称
+
+保存后给予执行权限
+
+chmod +x /root/rcloneupload.sh
