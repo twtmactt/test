@@ -1,0 +1,177 @@
+一、配置证书
+1.1 安装acme.sh脚本
+关于使用acme.sh脚本申请证书，之前有专门介绍：点我访问。以Debian系为例，以root用户登录vps，执行以下命令安装脚本。
+apt-get update && apt-get -y install socat //安装socat
+wget -qO- get.acme.sh | bash //安装脚本
+source ~/.bashrc
+
+1.2 给域名申请证书
+在你的域名解析服务提供商那里添加好解析记录，假定你的域名是yourdomain.com，记得不要开启CDN，然后执行下面命令申请证书。
+acme.sh --issue --standalone -d yourdomain.com -k ec-256
+说明：脚本申请的证书和密钥都存放在 /root/.acme.sh/yourdomain.com_ecc目录下。
+
+1.3 安装证书到指定位置
+mkdir /etc/trojan //创建trojan目录
+acme.sh --installcert -d yourdomain.com --fullchain-file /etc/trojan/trojan.crt --key-file /etc/trojan/trojan.key --ecc //安装证书和私钥到指定位置
+
+二、安装配置Caddy
+2.1 安装caddy
+执行下面命令安装caddy
+wget -qO- https://getcaddy.com | bash -s personal
+which caddy //查找caddy位置
+/usr/local/bin/caddy //输出此文本即可
+
+2.2 创建caddy的配置文件
+2.2.1 创建caddy目录
+mkdir /root/caddy && cd /root/caddy //创建caddy目录并切换至此
+
+2.2.2 创建caddy配置文件Caddyfile
+vim Caddyfile //创建并开始编辑文件
+//以下是文件内容，请稍作修改后添加至文件
+yourdomain.com:80 {
+  gzip
+  log /root/caddy/caddy.log
+  proxy / https://baidu.com
+}
+//以上是文件内容，请稍作修改后添加至文件
+说明：此处用proxy / https://baidu.com来反代别的网站，你也可以去掉此行，用root /path/to/website来指定网站根目录。
+
+2.3 注册caddy服务
+ cd /etc/systemd/system && vim caddy.service //切换到此目录下,创建并开始编辑服务文件
+
+//以下是文件内容，请添加至文件
+[Unit]
+Description=Caddy Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/caddy -conf /root/caddy/Caddyfile
+Restart=on-abort
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target
+//以上是文件内容，添加至文件
+
+systemctl daemon-reload //重载守护进程
+systemctl start caddy //启动caddy.service服务
+systemctl status caddy //查看caddy服务运行状况
+systemctl enable caddy //将此服务加入开机自启动
+
+三、用docker启动trojan服务
+3.1 安装配置docker
+以root用户执行下面命令安装docker
+wget -qO- get.docker.com | bash //安装docker
+systemctl start docker //启动docker服务
+systemctl status docker //查看docker运行状态
+docker -v //查看docker版本
+systemctl enable docker //将docker服务加入开机自启动
+
+3.2 拉取trojan镜像
+docker pull teddysun/trojan
+
+3.3 创建trojan服务端配置文件
+3.3.1 切换到trojan目录并开始编辑配置文件
+cd /etc/trojan && vim config.json
+
+3.3.2 编辑配置文件
+{
+    "run_type": "server",
+    "local_addr": "0.0.0.0",
+    "local_port": 443,
+    "remote_addr": "127.0.0.1",
+    "remote_port": 80,
+    "password": [
+        "trojanuser1",
+        "trojanuser2"
+    ],
+    "log_level": 1,
+    "ssl": {
+        "cert": "/etc/trojan/trojan.crt",
+        "key": "/etc/trojan/trojan.key",
+        "key_password": "",
+        "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384",
+        "cipher_tls13": "TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384",
+        "prefer_server_cipher": true,
+        "alpn": [
+            "http/1.1"
+        ],
+        "reuse_session": true,
+        "session_ticket": false,
+        "session_timeout": 600,
+        "plain_http_response": "",
+        "curves": "",
+        "dhparam": ""
+    },
+    "tcp": {
+        "prefer_ipv4": false,
+        "no_delay": true,
+        "keep_alive": true,
+        "reuse_port": false,
+        "fast_open": false,
+        "fast_open_qlen": 20
+    },
+    "mysql": {
+        "enabled": false,
+        "server_addr": "127.0.0.1",
+        "server_port": 3306,
+        "database": "trojan",
+        "username": "trojan",
+        "password": ""
+    }
+}
+说明：password可以设置多个，方便多用户使用，关于具体的配置文件，trojan项目给出了详细的解释：点我直达https://trojan-gfw.github.io/trojan/config。
+
+3.4 启动docker容器
+docker run -d --name trojan --restart always --net host -v /etc/trojan:/etc/trojan teddysun/trojan
+说明：这里使用--net host指定容器使用宿主机网络，为的是让其访问127.0.0.1是访问服务端，是转发数据到caddy。也有另外一种方法，这里不用--net host，使用-p 443:443映射443端口，但是在上一步的配置文件里需要修改"remote_addr":"127.0.0.1",将其改为"remote_addr":"你的服务器IP或者你的域名"。
+
+四、客户端配置
+4.1 Windows电脑端
+先到trojan releases下载适用于windows端的包，解压缩后，配置目录下的config.json文件。其中releases地址是：点我访问https://github.com/trojan-gfw/trojan/releases。
+配置文件格式如下：
+{
+    "run_type": "client",
+    "local_addr": "127.0.0.1",
+    "local_port": 1080,
+    "remote_addr": "yourdomain.com",
+    "remote_port": 443,
+    "password": [
+        "trojanuser1"
+    ],
+    "log_level": 1,
+    "ssl": {
+        "verify": true,
+        "verify_hostname": true,
+        "cert": "",
+        "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA",
+        "cipher_tls13": "TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384",
+        "sni": "",
+        "alpn": [
+            "h2",
+            "http/1.1"
+        ],
+        "reuse_session": true,
+        "session_ticket": false,
+        "curves": ""
+    },
+    "tcp": {
+        "no_delay": true,
+        "keep_alive": true,
+        "reuse_port": false,
+        "fast_open": false,
+        "fast_open_qlen": 20
+    }
+}
+说明：此处需要修改一下”remote_addr”为你的域名，还有设置的password。配置好后，启动trojan，如果报错请先安装同目录下的 VC_redist.x64.exe 程序文件，再启动trojan，目前trojan客户端还比较简陋，需要搭配浏览器插件做分流。
+
+
+
+
+
+
+
+
+
+
+
