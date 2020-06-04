@@ -1,0 +1,40 @@
+安装 curl：
+yum -y install wget unzip curl
+下载脚本：
+wget https://github.com/helloxz/ccaa/archive/master.zip
+解压和运行脚本：
+unzip master.zip && cd ccaa-master && sh ccaa.sh
+出现如下提示时输入 1 ，然后回车安装 CCAA：
+------------------------------------------------
+Linux + Caddy + Aria2 + AriaNg一键安装脚本(CCAA)
+1) 安装CCAA
+2) 卸载CCAA
+3) 更新bt-tracker
+q) 退出！
+按照提示设置下载位置：
+设置下载路径（请填写绝对地址，默认/data/ccaaDown）:
+接着设置RPC密钥，第一次进入的时候需要密钥验证，如下：
+Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):123456
+接着设置用户名和密码，用于登录Web下载管理，设置完成后等待一段时间，安装完成后会显示进入下载管理的地址和你输入的用户名和密码。如下：
+-------------------------------------------------------------
+大功告成，请访问: http://172.93.47.76:6080/
+用户名: 123456
+密码: 123456
+Aria2 RPC 密钥: 123456
+帮助文档: https://dwz.ovh/ccaa （必看）
+-------------------------------------------------------------
+一般进入下载管理的地址就是 IP + 6080端口号，如果有域名和网站服务器的话可以设置反向代理，通过域名来访问。
+
+常用命令
+注意！软件开机并不会自启动，重启需要手动启动，下面是一些操作命令：
+
+查看CCAA状态：
+ccaa status
+启动CCAA：
+ccaa start
+停止CCAA：
+ccaa stop
+重启CCAA：
+ccaa restart
+更新BT Tracker：
+/etc/ccaa/upbt.sh
