@@ -1,3 +1,5 @@
+补充：<script src="//cdn.jsdelivr.net/combine/gh/jquery/jquery@3.2/dist/jquery.min.js,gh/swjsky/goindex/themes/${authConfig.theme}/app.js"></script>
+
 var authConfig = {
     "siteName": "GoIndex", // 网站名称
     "root_pass": "index",  // 根目录密码，优先于.password
