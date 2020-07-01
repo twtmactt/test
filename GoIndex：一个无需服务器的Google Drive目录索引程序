@@ -17,3 +17,5 @@ rclone config
 不知道配置文件在哪的，可以使用命令：rclone config file | grep rclone.conf
 
 2.获取并修改Workers代码（见文档）
+
+文件夹添加密码：win+R  cmd  cd desktop   echo 123456>.password
