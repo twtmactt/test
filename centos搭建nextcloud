@@ -51,3 +51,10 @@ location ~ \.(?:png|html|ttf|ico|jpg|jpeg)$ {
      'host' => '127.0.0.1',
      'port' => 6379,
 ],
+
+5.定时任务
+＃crontab -u www -e
+*/15 * * * * php -f /www/wwwroot/nextcloud/cron.php
+您可以通过执行以下命令来验证是否已添加和计划cron作业：
+＃crontab -u www -l
+*/15 * * * * php -f /www/wwwroot/nextcloud/cron.php
