@@ -1,0 +1,53 @@
+1、安装宝塔
+安装完成后，进入面板，点击左侧软件商店，然后安装PHP 5.6+、Mysql、Nginx、Redis。
+然后点击左侧软件商店-PHP设置-安装扩展，安装Redis模块即可
+接下来点击左侧网站-添加站点，填好域名和Mysql数据库用户名和密码信息。
+
+2、上传Nextcloud程序(最后执行一下权限chown -R www:www ./）
+
+3、伪静态设置
+点击站点设置-伪静态设置，添加以下代码：
+
+location / {
+    rewrite ^ /index.php$request_uri;
+}
+
+location ~ ^\/(?:build|tests|config|lib|3rdparty|templates|data)\/ {
+    deny all;
+}
+
+location ~ ^\/(?:\.|autotest|occ|issue|indie|db_|console) {
+    deny all;
+}
+
+location ~ ^\/(?:updater|oc[ms]-provider)(?:$|\/) {
+    try_files $uri/ =404;
+    index index.php;
+}
+
+location ~ \.(?:css|js|woff2?|svg|gif|map)$ {
+    try_files $uri /index.php$request_uri;
+    add_header Cache-Control "public, max-age=15778463";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header X-Download-Options noopen;
+    add_header X-Permitted-Cross-Domain-Policies none;
+    add_header Referrer-Policy no-referrer;
+
+    access_log off;
+}
+
+location ~ \.(?:png|html|ttf|ico|jpg|jpeg)$ {
+    try_files $uri /index.php$request_uri;
+    access_log off;
+}
+
+4、新增Redis缓存配置（小括号里倒数第二行）
+使用宝塔点击左侧文件，找到网站根目录的config/config.php配置文件，在后面新增以下代码：
+'memcache.locking' => '\OC\Memcache\Redis',
+'memcache.distributed' => '\OC\Memcache\Redis',
+'redis' => [
+     'host' => '127.0.0.1',
+     'port' => 6379,
+],
