@@ -13,6 +13,10 @@ systemctl stop firewalld # 关闭防火墙）
 
 安装mysql
 sudo apt-get install mysql-server mysql-client
+查看root密码
+cd /etc/mysql/
+sudo cat debian.cnf
+
 
 安装依赖（Seafile 7.1.x 版本）
 apt-get install python3 python3-setuptools python3-pip python3-ldap -y
@@ -32,7 +36,7 @@ mkdir installed
 mv seafile-server_* installed
 
 安装
-cd seafile-server-*
+cd seafile-server-7.1.4(版本号与下载统一)
 ./setup-seafile-mysql.sh  #运行安装脚本并回答预设问题
 
 启动 Seafile:
