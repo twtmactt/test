@@ -6,7 +6,7 @@ apt-get upgrade
 安装nginx,并检查是否成功（防火墙）
 sudo apt-get install nginx
 sudo /etc/init.d/nginx start
-（apt install firewalld
+（apt install firewalld)
 systemctl start nginx
 systemctl enable nginx.service
 systemctl stop firewalld # 关闭防火墙）
@@ -14,11 +14,13 @@ systemctl stop firewalld # 关闭防火墙）
 安装mysql
 sudo apt-get install mysql-server mysql-client
 
-安装依赖（Seafile 7.0.x 版本）
-apt-get install python2.7 python-setuptools python-mysqldb python-urllib3 python-ldap -y
+安装依赖（Seafile 7.1.x 版本）
+apt-get install python3 python3-setuptools python3-pip python3-ldap -y
+pip3 install --timeout=3600 Pillow pylibmc captcha jinja2 sqlalchemy psd-tools \
+    django-pylibmc django-simple-captcha
 
 下载最新的服务器安装包
-wget http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_7.0.5_x86-64.tar.gz
+wget http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_7.1.4_x86-64.tar.gz
 
 部署和目录设计
 mkdir /opt/seafile
