@@ -18,13 +18,11 @@ cd /etc/mysql/
 sudo cat debian.cnf
 
 
-安装依赖（Seafile 7.1.x 版本）
-apt-get install python3 python3-setuptools python3-pip python3-ldap -y
-pip3 install --timeout=3600 Pillow pylibmc captcha jinja2 sqlalchemy psd-tools \
-    django-pylibmc django-simple-captcha
+安装依赖（Seafile 7.0.x 版本）
+apt-get install python3 python3-setuptools python-mysqldb python-urllib3 python-ldap -y
 
 下载最新的服务器安装包
-wget http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_7.1.4_x86-64.tar.gz
+wget http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_7.0.5_x86-64.tar.gz
 
 部署和目录设计
 mkdir /opt/seafile
@@ -36,7 +34,7 @@ mkdir installed
 mv seafile-server_* installed
 
 安装
-cd seafile-server-7.1.4(版本号与下载统一)
+cd seafile-server-7.0.5(版本号与下载统一)
 ./setup-seafile-mysql.sh  #运行安装脚本并回答预设问题
 
 启动 Seafile:
