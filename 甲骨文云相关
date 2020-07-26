@@ -12,8 +12,32 @@ service iptables stop
 #去掉iptables开机启动
 chkconfig iptables off
 
-CentOS系统需要以下操作
-1. 切换成 root
-2. 重新生成 grub2.cfg， 命令如下：
+
+用Root登录VPS主机
+Oracle免费VPS默认是不让Root账号登录的，直接使用命令sudo -i 就可以切换到root权限，如果你想要使用root登录，请使用以下命令（密码是wzfou，你可以替换为其它的）：
+echo root:wzfou |sudo chpasswd root
+sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config;
+sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
+sudo service sshd restart
+
+如果你想要开机就使用root登录，可以使用以下命令（密码是wzfou，你可以替换为其它的）：
+#编辑cloud.cfg
+vim /etc/cloud/cloud.cfg
+#在最后加入以下代码
+#!/bin/bash
+echo root:wzfou |sudo chpasswd root
+sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config;
+sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config;
+sudo service sshd restart
+保存后回到Oracle Cloud的实例详情页面，点击“重新引导”即可，现在开机就可以使用Root登录了。
+
+切换内核装加速模块
+Oracle VPS在换内核时会提示错误：/boot/grub2/grub.cfg not found。解决办法如下：
+#/boot/grub/grub.conf 缺失：
+yum install -y grub
+grub-mkconfig -o /boot/grub/grub.conf
+#/boot/grub2/grub.cfg 缺失：
+yum install -y grub2
 grub2-mkconfig -o /boot/grub2/grub.cfg
-3. 跑你要跑的 bbr.sh
+#或者新建链接
+ln -s /boot/efi/EFI/centos/grub.cfg /boot/grub2/grub.cfg
