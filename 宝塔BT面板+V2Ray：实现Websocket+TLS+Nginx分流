@@ -3,7 +3,7 @@
 2.安装v2ray
    wget https://install.direct/go.sh
    sudo bash go.sh
-   以下是V2Ray可使用的命令：
+   以下是V2Ray可使用的命令：(systemctl start v2ray)
    sudo service v2ray start #启动V2Ray
    sudo service v2ray stop #停止运行V2Ray
    sudo service v2ray restart #重启V2Ray
