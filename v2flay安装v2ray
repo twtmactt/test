@@ -1,0 +1,16 @@
+apt update
+apt upgrade
+apt install curl
+/ 安裝執行檔和 .dat 資料檔
+# curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
+// 只更新 .dat 資料檔
+# curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh
+bash install-release.sh
+bash install-dat-release.sh
+cd /usr/local/etc/v2ray
+rm *.json
+vi config.json（粘贴需要的内容）
+开启bbr，开启端口
+
+移除 V2Ray
+# bash install-release.sh --remove
