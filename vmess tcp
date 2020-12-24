@@ -1,0 +1,57 @@
+1.安装
+见v2flay安装v2ray
+2.配置文件
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 1234,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": ""
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ]
+}
+
+
+firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --reload
+
+(for centos : systemctl enable v2ray)
+$sudo apt-get remove vim-common
+$sudo apt-get install vim
+
+wget -N --no-check-certificate "https://raw.githubusercontent.com/dlxg/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
