@@ -1,0 +1,100 @@
+1.域名解析，安装bbr
+
+2.安装v2ray
+   wget https://install.direct/go.sh
+   sudo bash go.sh
+   以下是V2Ray可使用的命令：
+   sudo service v2ray start #启动V2Ray
+   sudo service v2ray stop #停止运行V2Ray
+   sudo service v2ray restart #重启V2Ray
+   sudo service v2ray status #查看V2Ray状态
+
+
+3.安装BT面板
+  一切都安装完后，点击「网站」——「添加站点」(默认80端口)
+  成功添加完站点后，点击「设置」——SSL——Let’s Encrypt，成功申请SSL后，保存
+  再点击站点「设置」的「配置文件」选项，在ssl最后一个}前添加如下代码：
+  location /ws {
+    proxy_pass       http://127.0.0.1:端口;
+    proxy_redirect             off;
+    proxy_http_version         1.1;
+    proxy_set_header Upgrade   $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host      $http_host;
+    }
+	回到「首页」，重启「Nignx服务」
+	BT面板「安全」，防火墙端口放行，新增你的V2Ray端口
+
+4.修改V2Ray配置文件(vi /etc/v2ray/config.json)
+   {
+  "log" : {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "warning"
+  },
+  "inbound": {
+    "port": , #自动生成的端口，须与Nignx设置的相一致，可自定义
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          "id": "", #自动生成的UUID
+          "level": 1,
+          "alterId": 64
+        }
+      ]
+    },
+ "streamSettings": {
+ "network":"ws",
+ "wsSettings": {
+ "path": "/ws", #path可自定义，这里是/ws，须与Nginx和客户端的path相一致
+ "headers": {
+ "Host": "www.baidu.com" #Host可自定于任意域名，此处没有添加
+ }
+ }
+ }
+  },
+  "outbound": {
+    "protocol": "freedom",
+    "settings": {}
+  },
+  "outboundDetour": [
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "routing": {
+    "strategy": "rules",
+    "settings": {
+      "rules": [
+        {
+          "type": "field",
+          "ip": [
+            "0.0.0.0/8",
+            "10.0.0.0/8",
+            "100.64.0.0/10",
+            "127.0.0.0/8",
+            "169.254.0.0/16",
+            "172.16.0.0/12",
+            "192.0.0.0/24",
+            "192.0.2.0/24",
+            "192.168.0.0/16",
+            "198.18.0.0/15",
+            "198.51.100.0/24",
+            "203.0.113.0/24",
+            "::1/128",
+            "fc00::/7",
+            "fe80::/10"
+          ],
+          "outboundTag": "blocked"
+        }
+      ]
+    }
+  }
+}
+
+5.重启V2Ray服务
+  service v2ray restart
+  service v2ray status #通过该命令，可查看v2ray是否运行成功
