@@ -1,0 +1,39 @@
+1、Debian or Ubuntu系统
+#适用于单网卡（单IP）服务器：
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0/tcp_nanqinlang-rinetd-debianorubuntu.sh
+bash tcp_nanqinlang-rinetd-debianorubuntu.sh
+#如果提示only support OpenVZ !，则使用下面这个脚本
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0-nocheckvirt/tcp_nanqinlang-rinetd-debianorubuntu-nocheckvirt.sh
+bash tcp_nanqinlang-rinetd-debianorubuntu-nocheckvirt.sh
+
+#适用于多网卡（多IP）服务器，会为所有网卡（所有IP）提供加速：
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0/tcp_nanqinlang-rinetd-debianorubuntu-multiNIC.sh
+bash tcp_nanqinlang-rinetd-debianorubuntu-multiNIC.sh
+#如果提示only support OpenVZ !，则使用下面这个脚本
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0-nocheckvirt/tcp_nanqinlang-rinetd-debianorubuntu-nocheckvirt-multiNIC.sh
+bash tcp_nanqinlang-rinetd-debianorubuntu-nocheckvirt-multiNIC.sh
+
+2、CentOS 7系统
+#和上面一样，也分单网卡和多网卡版本
+#单网卡
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0/tcp_nanqinlang-rinetd-centos.sh
+bash tcp_nanqinlang-rinetd-centos.sh
+#如果提示only support OpenVZ !，则使用下面这个脚本
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0-nocheckvirt/tcp_nanqinlang-rinetd-centos-nocheckvirt.sh
+bash tcp_nanqinlang-rinetd-centos-nocheckvirt.sh
+
+#多网卡
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0/tcp_nanqinlang-rinetd-centos.sh
+bash tcp_nanqinlang-rinetd-centos.sh
+#如果提示only support OpenVZ !，则使用下面这个脚本
+wget https://github.com/tcp-nanqinlang/lkl-rinetd/releases/download/1.1.0-nocheckvirt/tcp_nanqinlang-rinetd-debianorubuntu-nocheckvirt-multiNIC.sh
+bash tcp_nanqinlang-rinetd-debianorubuntu-nocheckvirt-multiNIC.sh
+
+使用说明
+在/home/tcp_nanqinlang进行安装，所以安装完成后不要动这个文件夹了（除非你想修改端口）。
+
+安装过程中，会提示输入端口号。多个端口号用空格隔开。不支持端口段。
+
+安装完成后，会开启rinetd-bbr。以后重启机器也会随开机自启。
+
+使用前请注意自己的iptables相关设置。
