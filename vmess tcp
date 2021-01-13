@@ -25,9 +25,11 @@
             "settings": {
                 "clients": [
                     {
-                        "id": ""
+                        "id": "",
+                        "alterId": 64
                     }
-                ]
+                ],
+                "disableInsecureEncryption": true
             },
             "streamSettings": {
                 "network": "tcp"
