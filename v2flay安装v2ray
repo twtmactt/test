@@ -1,3 +1,6 @@
+同步时间
+dpkg-reconfigure tzdata
+
 apt update
 apt upgrade
 apt install curl
