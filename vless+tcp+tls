@@ -1,0 +1,102 @@
+apt update
+备选，可不用apt upgrade  apt install curl   apt install nano
+
+开启bbr
+
+安装v2ray
+安裝執行檔和 .dat 資料檔
+# bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+//只更新 .dat 資料檔
+# bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)
+
+启动v2ray/设置开机自启(如遇问题试试systemctl daemon-reload)
+systemctl start v2ray
+systemctl enable v2ray
+
+安装nginx/certbot
+apt -y install nginx python-certbot-nginx
+
+新建一个nginx站点配置文件
+nano /etc/nginx/conf.d/v2raycert.conf
+
+写入如下配置：
+server {
+      listen 80;
+      server_name naive.imlala.best; # 换成你的域名
+}
+
+用certbot申请一个你的域名证书
+certbot --nginx --agree-tos --no-eff-email --email xxxxx@qq.com
+
+重新编辑这个nginx站点配置文件
+nano /etc/nginx/conf.d/v2raycert.conf
+
+把certbot自动配置的这一行注释掉
+# listen 443 ssl; # managed by Certbot
+
+重载nginx
+systemctl reload nginx
+
+将申请的证书复制到如下目录
+cp /etc/letsencrypt/live/你的域名/fullchain.pem /usr/local/etc/v2ray
+cp /etc/letsencrypt/live/你的域名/privkey.pem /usr/local/etc/v2ray
+
+更改所有者
+chown -R nobody:nogroup /usr/local/etc/v2ray/
+
+编辑v2ray的配置文件
+nano /usr/local/etc/v2ray/config.json
+写入如下配置：
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "port": 443,
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "", // 填写你的 UUID
+                        "level": 0,
+                        "email": "love@v2fly.org"
+                    }
+                ],
+                "decryption": "none",
+                "fallbacks": [
+                    {
+                        "dest": 80
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "tls",
+                "tlsSettings": {
+                    "alpn": [
+                        "http/1.1"
+                    ],
+                    "certificates": [
+                        {
+                            "certificateFile": "/usr/local/etc/v2ray/fullchain.pem",
+                            "keyFile": "/usr/local/etc/v2ray/privkey.pem"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom"
+        }
+    ]
+}
+
+测试你的配置是否正确
+v2ray -config /usr/local/etc/v2ray/config.json -test
+
+最后重启v2ray即可完成服务端这块的配置
+systemctl restart v2ray
+
