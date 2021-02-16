@@ -1,0 +1,8 @@
+docker安装方法：
+1.安装docker：https://docs.docker.com/engine/install
+2.docker run -d -v /etc/sharelist:/sharelist/cache -p 33001:33001 --name="sharelist" reruin/sharelist
+
+脚本方法：
+wget --no-check-certificate -qO-  https://raw.githubusercontent.com/reruin/sharelist/master/netinstall.sh | bash
+
+安装完成首次访问 http://IP:33001地址，将进入初始化界面。
