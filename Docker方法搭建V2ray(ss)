@@ -1,0 +1,57 @@
+1.安装BBR
+2.安装Docker
+法一：安装docker 
+## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+## Centos 7 系统：wget -qO- get.docker.com | bash 
+法二：官方https://docs.docker.com/engine/install/
+
+3.启动docker/允许开机启动
+systemctl start docker 
+systemctl enable docker 
+
+4.部署docker管理界面
+docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock \
+--name ui --restart=always lihaixin/portainer:me
+
+5.拉取v2ray镜像
+docker pull teddysun/v2ray
+mkdir -p /etc/v2ray
+cat > /etc/v2ray/config.json <<EOF
+{
+  "inbounds": [{
+    "port": 9000,（自定）
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          "id": "",
+          "level": 1,
+          "alterId": 64
+        }
+      ]
+    }
+  }],
+  "outbounds": [{
+    "protocol": "freedom",
+    "settings": {}
+  }]
+}
+EOF
+docker run -d -p 9000:9000 --name v2ray --restart=always -v /etc/v2ray:/etc/v2ray teddysun/v2ray
+
+###拉取ss镜像
+docker pull teddysun/shadowsocks-libev
+mkdir -p /etc/shadowsocks-libev
+cat > /etc/shadowsocks-libev/config.json <<EOF
+{
+    "server":"0.0.0.0",
+    "server_port":9000,
+    "password":"password0",
+    "timeout":300,
+    "method":"aes-256-gcm",
+    "fast_open":true,
+    "nameserver":"8.8.8.8",
+    "mode":"tcp_and_udp"
+}
+EOF
+docker run -d -p 9000:9000 -p 9000:9000/udp --name ss-libev --restart=always -v /etc/shadowsocks-libev:/etc/shadowsocks-libev teddysun/shadowsocks-libev
