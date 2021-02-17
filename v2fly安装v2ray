@@ -64,3 +64,12 @@ nano config.json（粘贴需要的内容）
 
 移除 V2Ray
 # bash install-release.sh --remove
+
+firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --reload
+
+(for centos : systemctl enable v2ray)
+$sudo apt-get remove vim-common
+$sudo apt-get install vim
+
+wget -N --no-check-certificate "https://raw.githubusercontent.com/dlxg/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
