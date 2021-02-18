@@ -14,23 +14,26 @@ mkdir -p /etc/v2ray
 sudo docker pull v2fly/v2fly-core
 cat > /etc/v2ray/config.json <<EOF
 {
-  "inbounds": [{
-    "port": 21135,
-    "protocol": "vmess",
-    "settings": {
-      "clients": [
-        {
-          "id": "62a0f70a-aa86-4412-952d-ea93d8ec5011",
-          "level": 1,
-          "alterId": 64
-        }
-      ]
+  "inbounds": [
+    {
+      "port": 21135,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "109648e3-fdc9-4b54-ae7c-8deffdbb964a",
+            "alterId": 64
+          }
+        ]
+      }
     }
-  }],
-  "outbounds": [{
-    "protocol": "freedom",
-    "settings": {}
-  }]
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    }
+  ]
 }
 EOF
 
