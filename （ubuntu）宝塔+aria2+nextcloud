@@ -1,0 +1,11 @@
+安装宝塔(php7.2及以上)
+安装aria2
+wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/aria2.sh && chmod +x aria2.sh && bash aria2.sh
+新建文件夹并修改下载目录
+mkdir -p /data/Download
+进入宝塔面板→php管理→禁用函数里面把“exec”“popen”“putenv”删除
+apt install libsmbclient libsmbclient-dev
+apt install smbclient
+重启nginx和php看是否出问题
+搭建网站并下载安装nextcloud（需要数据库）
+添加外部储存
