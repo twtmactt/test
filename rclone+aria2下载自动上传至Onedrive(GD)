@@ -10,10 +10,7 @@ wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh 
 配置文件：/root/.aria2/aria2.conf（配置文件包含中文注释，但是一些系统可能不支持显示中文）
 下载目录：/usr/local/caddy/www/aria2/Download（该目录为Github下载安装的，而备用地址下载的默认为/usr/local/caddy/www/file）
 mkdir -p /data/Download（并修改下载目录）
-然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。
-vim /root/.aria2/aria2.conf
-on-download-complete=/root/rcloneupload.sh
-/etc/init.d/aria2 restart
+
 
 2.安装rclone
 curl https://rclone.org/install.sh | sudo bash
@@ -28,6 +25,11 @@ rclone authorize "onedrive"
 <---End paste    #请复制{xx}整个内容，后面需要用到
 
 4.配置rclone，添加网盘
+
+然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。
+vim /root/.aria2/aria2.conf
+on-download-complete=/root/rcloneupload.sh
+/etc/init.d/aria2 restart
 
 5.配置上传脚本
 vim /root/rcloneupload.sh
