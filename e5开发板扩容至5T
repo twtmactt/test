@@ -1,0 +1,10 @@
+第一步：在管理后台修改
+admin.onedrive.com/?v=StorageSettings
+
+第二步:下载SharePoint Online Management Shell
+https://www.microsoft.com/en-US/download/details.aspx?id=35588
+
+第三步:输入下面的代码
+Connect-SPOService -Url https://<orgnam e>-admin.sharepoint.com  ##<orgnam e>要改
+Set-SPOSite -Identity https://arvinhe-my.sharepoint.com/personal/arvin_arvin_onmicrosoft_com -StorageQuota 5242880 
+##https://arvinhe-my.sharepoint.com/personal/arvin_arvin_onmicrosoft_com要改，5242880对应5120G
