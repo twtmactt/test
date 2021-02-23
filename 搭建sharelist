@@ -1,4 +1,6 @@
 docker安装方法：
+## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+## Centos 7 系统：wget -qO- get.docker.com | bash 
 1.安装docker：https://docs.docker.com/engine/install
 2.docker run -d -v /etc/sharelist:/sharelist/cache -p 33001:33001 --name="sharelist" reruin/sharelist
 
