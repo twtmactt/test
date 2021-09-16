@@ -1,0 +1,21 @@
+1.docker安装
+curl -sSL https://get.docker.com/ | sh
+
+2.安装serverstatus的docker镜像
+# 下面文字请全部复制后粘贴到命令端
+mkdir serverstatus && cd serverstatus && wget https://raw.githubusercontent.com/cppla/ServerStatus/master/autodeploy/config.json  #配置文件
+docker run -d --restart=always --name=serverstatus -v ~/serverstatus/config.json:/ServerStatus/server/config.json -p 10056:80 -p 35601:35601 cppla/serverstatus
+
+至此访问ip:10056 即可看到已部署成功
+
+3.服务端配置文件config.json修改//（等客户端部署完毕后再来修改)
+docker ps   #获取正在运行的镜像
+注意每个人运行后的容器ID是不一样的，然后输入自己容器id的前4位进入该容器：
+docker stop 22fe    #注意替换22fe为自己显示的容器id
+进入文件夹
+cd ~/serverstatus
+vi config.json
+完成后，启动刚刚停止的容器即可。
+docker start 22fe     # 注意22fe为机器上的容器ID
+
+wget --no-check-certificate -qO client-linux.py 'https://raw.githubusercontent.com/cppla/ServerStatus/master/clients/client-linux.py' && nohup python client-linux.py SERVER=23.94.24.115 USER=s04  >/dev/null 2>&1 &
