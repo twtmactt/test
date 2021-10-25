@@ -1,0 +1,2 @@
+docker container ls -a
+docker container rm
