@@ -36,4 +36,70 @@ $ cat > /etc/xray/config.json <<EOF
 EOF
 docker run -d -p 9000:9000 --name xray --restart=always -v /etc/xray:/etc/xray teddysun/xray
 
+普通方法
+apt update
+apt upgrade
+apt install curl
+apt install nano
+安裝執行檔和 .dat 資料檔
+# bash <(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)
+//只更新 .dat 資料檔
+# bash <(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)
 
+cd /usr/local/etc/xray
+rm *.json
+nano config.json（粘贴需要的内容）
+
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",(不要改！)
+            "port": 1234,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": ""
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ]
+}
+
+开启bbr，开启端口
+
+
+移除 V2Ray
+# bash install-release.sh --remove
+(ubuntu开启端口方法)
+firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --reload
