@@ -1,0 +1,39 @@
+Docker方法
+1.安装BBR
+2.安装Docker
+法一：安装docker 
+## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+## Centos 7 系统：wget -qO- get.docker.com | bash 
+法二：官方https://docs.docker.com/engine/install/
+
+3.启动docker/允许开机启动
+systemctl start docker 
+systemctl enable docker 
+
+4.拉取xray镜像
+docker pull teddysun/xray
+mkdir -p /etc/xray
+
+A sample in JSON like below:
+$ cat > /etc/xray/config.json <<EOF
+{
+  "inbounds": [{
+    "port": 9000,
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          "id": "1eb6e917-774b-4a84-aff6-b058577c60a5"
+        }
+      ]
+    }
+  }],
+  "outbounds": [{
+    "protocol": "freedom",
+    "settings": {}
+  }]
+}
+EOF
+docker run -d -p 9000:9000 --name xray --restart=always -v /etc/xray:/etc/xray teddysun/xray
+
+
