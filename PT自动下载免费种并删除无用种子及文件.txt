@@ -1,0 +1,83 @@
+1.Ubuntu/Debian搭建 qb
+wget -qO /usr/local/bin/x86_64-qbittorrent-nox 下载地址（https://github.com/userdocs/qbittorrent-nox-static/releases）
+chmod 700 /usr/local/bin/x86_64-qbittorrent-nox
+nano /etc/systemd/system/qbt.service
+添加如下：
+[Unit]
+Description=qBittorrent Service
+After=network.target nss-lookup.target
+
+[Service]
+UMask=000
+ExecStart=/usr/local/bin/x86_64-qbittorrent-nox --profile=/usr/local/etc
+
+[Install]
+
+WantedBy=multi-user.target
+
+##请注意：--profile=/usr/local/etc这个选项，表示qBittorrent的配置目录，如果不写，就是在当前用户的主目录，例如root目录下面。
+
+systemctl enable qbt   #开机启动，第一次必须要执行此命令
+systemctl start qbt  #启动
+systemctl stop qbt  #停止
+systemctl status qbt  #软件运行状态查询
+
+到目前为止，qBittorrent就算安装成功了，打开浏览器，输入：IP:8080，就可以打开qBittorrent的网页界面了。
+用户名：admin
+
+密码：adminadmin
+
+2.设定自动下载免费种
+安装pip3/依赖
+apt -y install git python3-pip
+pip3 install bs4 requests lxml
+拉取文件：
+mkdir -p /opt/freetorrent/torrent && cd /opt/freetorrent
+git clone https://github.com/cshenxi/ptscripts.git
+cd ptscripts
+给执行权限：
+chmod +x download_free_PTtorrents_v3_debug.py
+编辑：
+nano download_free_PTtorrents_v3_debug.py
+在这个文件最上方加入一行：#!/usr/bin/python3
+然后要改动的地方，这里我以M-TEAM为例：
+site_name = "M-TEAM"
+site_url = "https://tp.m-team.cc/torrents.php"
+site_cookie = "c_lang; tp=你的cookies" # 注意M-Team的cookies前面必须要有c_lang，否则无法登录成功
+url_half = "https://tp.m-team.cc/"
+monitor_path = r'/opt/freetorrent/torrent/'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'
+referer = 'https://tp.m-team.cc/login.php'
+host = 'tp.m-team.cc'
+cookie/useragent如何获取？打开Chrome，登录你的M-Team账号，然后按F12：index.php中寻找
+添加计划任务：
+crontab -e
+每两个小时执行一次：
+0 */2 * * * /usr/bin/python3 /opt/freetorrent/ptscripts/download_free_PTtorrents_v3_debug.py
+验证是否可以正常下载：
+./download_free_PTtorrents_v3_debug.py
+然后在qBittorrent上设置监控文件夹：
+监控地址/opt/freetorrent/torrent
+
+3.自动删除种子
+安装程序pip install autoremove-torrents
+卸载：pip uninstall autoremove-torrents
+使用”find / -name 文件名“命令查询一下art的位置，看看是不是在/usr/local/bin/autoremove-torrents
+创建配置文件：nano /root/config.yml
+添加如下：（做种60000s和比率大于1删除）
+my_task:
+  client: qbittorrent
+  host: http://ip:端口
+  username: 用户名
+  password: 密码
+  strategies:
+    strategy1:
+      seeding_time: 60000
+      ratio: 1
+  delete_data: true
+使用命令查看配置是否正确：autoremove-torrents --view
+执行命令：autoremove-torrents
+添加计划任务：
+crontab -e
+*/30 * * * * /usr/local/bin/autoremove-torrents --conf=/root/config.yml
+
