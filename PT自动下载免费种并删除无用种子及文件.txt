@@ -72,20 +72,22 @@ my_task:
   password: 密码
   strategies:
     strategy1:
+      remove: average_downloadspeed < 1024
+    strategy2:
       seeding_time: 60000
-      ratio: 1
       create_time: 61200
       free_space:
         min: 50
         path: /opt/freetorrent/torrent
-        action: remove-inactive-seeds
-    strategy2:
+        action: remove-big-seeds
+    strategy3:
       all_categories: true
       free_space:
         min: 60
         path: /opt/freetorrent/torrent
-        action: remove-big-seeds
+        action: remove-inactive-seeds
   delete_data: true
+
 使用命令查看配置是否正确：autoremove-torrents --view
 执行命令：autoremove-torrents
 添加计划任务：
