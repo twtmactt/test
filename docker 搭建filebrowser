@@ -1,0 +1,6 @@
+1. 安装docker
+2. docker pull filebrowser/filebrowser
+3.mkdir -p  /data/filebrowser
+  cd /data/filebrowser
+4. docker run -d -v /data/filebrowser/sites/root:/srv  -v /data/filebrowser/filebrowserconfig.json:/etc/config.json  -v /data/filebrowser/database.db:/etc/database.db -p 端口:80 --name  filebrowser  filebrowser/filebrowser
+5. 如打不开，检查端口
