@@ -35,7 +35,7 @@
 
 将手机连接到电脑上，在命令窗口输入“adb reboot bootloader”，手机将自动重启并进入bootloader。
 
-解锁：执行“fastboot oem unlock”（fastboot flashing unlock），之后设备信息显示“unlocked”
+解锁：执行“fastboot oem unlock”（fastboot flashing unlock），之后设备信息显示“unlocked”（同样方法运行fastboot flashing lock重新锁定）
 
 刷入系统：在文件夹内找到flash-all.bat并以管理员身份运行，等待系统自动进行刷机作业，几分钟就可以刷完了。
 
