@@ -52,8 +52,8 @@ host = 'tp.m-team.cc'
 cookie/useragent如何获取？打开Chrome，登录你的M-Team账号，然后按F12：index.php中寻找
 添加计划任务：
 crontab -e
-每两个小时执行一次：
-0 */2 * * * /usr/bin/python3 /opt/freetorrent/ptscripts/download_free_PTtorrents_v3_debug.py
+每5分钟执行一次：
+*/5 * * * * /usr/bin/python3 /opt/freetorrent/ptscripts/download_free_PTtorrents_v3_debug.py
 验证是否可以正常下载：
 ./download_free_PTtorrents_v3_debug.py
 然后在qBittorrent上设置监控文件夹：
