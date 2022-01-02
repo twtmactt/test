@@ -60,7 +60,7 @@ crontab -e
 监控地址/opt/freetorrent/torrent
 
 3.自动删除种子
-安装程序pip install autoremove-torrents
+安装程序pip install autoremove-torrents(drbian可能需要安装pip：apt-get update && apt-get upgrade -y && apt-get install python-pip -y)
 卸载：pip uninstall autoremove-torrents
 使用”find / -name 文件名“命令查询一下art的位置，看看是不是在/usr/local/bin/autoremove-torrents
 创建配置文件：nano /root/config.yml
