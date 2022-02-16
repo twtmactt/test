@@ -1,3 +1,8 @@
+五合一的TCP网络加速脚本，包括了BBR原版、BBR魔改版、暴力BBR魔改版、BBR plus（首选）、Lotsever(锐速)安装脚本。可用于KVMXen架构，不兼容OpenVZ（OVZ）。支持Centos 6+ / Debian 7+ / Ubuntu 14+，BBR魔改版不支持Debian 8。
+wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh"
+chmod +x tcp.sh
+./tcp.sh
+
 使用标准方式在 Ubuntu 16.04 下启用 TCP 拥塞控制之 BBR
 为 Ubuntu 16.04 安装 4.10 + 新内核
 sudo apt install linux-generic-hwe-16.04
