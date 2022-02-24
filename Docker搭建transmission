@@ -1,0 +1,18 @@
+安装docker
+法一：安装docker 
+## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+## Centos 7 系统：wget -qO- get.docker.com | bash 
+法二：官方https://docs.docker.com/engine/install/
+
+docker run -d --name="transmission" \
+  -e USERNAME=xx \
+  -e PASSWORD=xx \
+  -p 端口:9091 \
+  -p 51413:51413 \
+  -p 51413:51413/udp \
+  -v /data/downloads:/root/Downloads \
+  -v /data/transmission:/root/.config/transmission-daemon \
+  --restart=always \
+  helloz/transmission
+	
+访问  IP：端口
