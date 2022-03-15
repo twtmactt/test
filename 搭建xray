@@ -15,7 +15,7 @@ docker pull teddysun/xray
 mkdir -p /etc/xray
 
 A sample in JSON like below:
-$ cat > /etc/xray/config.json <<EOF
+cat > /etc/xray/config.json <<EOF
 {
   "inbounds": [{
     "port": 9000,
