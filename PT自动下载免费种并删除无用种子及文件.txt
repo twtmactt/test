@@ -84,6 +84,23 @@ my_task:
         path: /opt/freetorrent/torrent
         action: remove-inactive-seeds
   delete_data: true
+  (my_task:
+  client: qbittorrent
+   host: http://ip:端口
+  username: 用户名
+  password: 密码
+  strategies:
+    strategy1:
+      seeding_time: 86400
+      min_uploadspeed: 1024
+    strategy2:
+      all_categories: true
+      free_space:
+        min: 30
+        path: /usr/local/etc/qBittorrent/downloads
+        action: remove-inactive-seeds
+  delete_data: true
+)
 
 
 使用命令查看配置是否正确：autoremove-torrents --view
