@@ -39,7 +39,14 @@ cat > /etc/v2ray/config.json <<EOF
 EOF
 docker run -d -p 9000:9000 --name v2ray --restart=always -v /etc/v2ray:/etc/v2ray teddysun/v2ray
 
-###拉取ss镜像
+firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --reload
+###通过以下命令来控制 V2Ray：
+sudo docker container start v2ray
+sudo docker container stop v2ray
+sudo docker container restart v2ray
+
+拉取ss镜像
 docker pull teddysun/shadowsocks-libev
 mkdir -p /etc/shadowsocks-libev
 cat > /etc/shadowsocks-libev/config.json <<EOF
