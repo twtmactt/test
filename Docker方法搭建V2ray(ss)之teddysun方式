@@ -2,6 +2,7 @@
 2.安装Docker
 法一：安装docker 
 ## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+                       snap install docker
 ## Centos 7 系统：wget -qO- get.docker.com | bash 
 法二：官方https://docs.docker.com/engine/install/
 
