@@ -61,9 +61,8 @@ nano config.json（粘贴需要的内容）
 
 开启bbr，开启端口
 
-
-移除 V2Ray
-# bash install-release.sh --remove
+systemctl enable v2ray
+systemctl start v2ray
 
 firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
 firewall-cmd --reload
