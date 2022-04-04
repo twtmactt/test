@@ -1,0 +1,85 @@
+安装docker
+法一：安装docker 
+## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+## Centos 7 系统：wget -qO- get.docker.com | bash 
+法二：官方https://docs.docker.com/engine/install/
+
+创建文件（夹）
+mkdir -p /etc/v2ray
+
+拉取镜像
+sudo docker pull v2ray/official
+
+配置文件
+nano etc/v2ray/config.json
+{
+    "log": {
+        "access": "/var/log/v2ray/access.log",
+        "error": "/var/log/v2ray/error.log",
+        "loglevel": "warning"
+    },
+    "inbound": {
+        "port": 21135,
+        "protocol": "vmess",
+        "settings": {
+            "clients": [
+                {
+                    "id": "",
+                    "level": 1,
+                    "alterId": 64
+                }
+            ]
+        }
+    },
+    "outbound": {
+        "protocol": "freedom",
+        "settings": {}
+    },
+    "inboundDetour": [],
+    "outboundDetour": [
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "blocked"
+        }
+    ],
+    "routing": {
+        "strategy": "rules",
+        "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "ip": [
+                        "0.0.0.0/8",
+                        "10.0.0.0/8",
+                        "100.64.0.0/10",
+                        "127.0.0.0/8",
+                        "169.254.0.0/16",
+                        "172.16.0.0/12",
+                        "192.0.0.0/24",
+                        "192.0.2.0/24",
+                        "192.168.0.0/16",
+                        "198.18.0.0/15",
+                        "198.51.100.0/24",
+                        "203.0.113.0/24",
+                        "::1/128",
+                        "fc00::/7",
+                        "fe80::/10"
+                    ],
+                    "outboundTag": "blocked"
+                }
+            ]
+        }
+    }
+}
+
+sudo docker run -d --name v2ray -v /etc/v2ray:/etc/v2ray -p 21135:21135 v2ray/official  v2ray -config=/etc/v2ray/config.json
+
+查看运行状态
+sudo docker container ls
+
+###通过以下命令来控制 V2Ray：
+sudo docker container start v2ray
+sudo docker container stop v2ray
+sudo docker container restart v2ray
+sudo docker container logs v2ray
