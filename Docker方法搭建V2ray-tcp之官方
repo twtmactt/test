@@ -39,6 +39,9 @@ EOF
 
 sudo docker run -d --name v2ray -v /etc/v2ray:/etc/v2ray -p 21135:21135 v2fly/v2fly-core  v2ray -config=/etc/v2ray/config.json
 
+firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --reload
+
 查看运行状态
 sudo docker container ls
 
