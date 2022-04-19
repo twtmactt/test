@@ -15,7 +15,7 @@ mkdir -p /etc/v2ray
 sudo docker pull v2ray/official
 
 配置文件
-nano etc/v2ray/config.json
+nano /etc/v2ray/config.json
 {
     "log": {
         "access": "/var/log/v2ray/access.log",
