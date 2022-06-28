@@ -3,34 +3,30 @@
 目标URL填入http://127.0.0.1:3000（你的访问端口），再启用反向代理即可。至于启用SSL就不说了，直接在站点配置就可以启用。
 
 2、Caddy反代
-安装Caddy：wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh
+wget -N --no-check-certificate https://raw.githubusercontent.com/iiiiiii1/doubi/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh
 #备用地址
 wget -N --no-check-certificate https://www.moerats.com/usr/shell/Caddy/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh
-配置Caddy：
-#以下全部内容是一个整体，请修改域名后一起复制到SSH运行！
-
-#http访问，该配置不会自动签发SSL
-echo "xx.com {
+1、服务器IP反向代理(改为绑定的域名：80即为域名访问)
+# 以下全部内容是一个整体，是一个命令，全部复制粘贴到SSH软件中并一起执行！
+echo ":80 {
  gzip
- proxy / 127.0.0.1:3000 {
-    header_upstream Host {host}
-    header_upstream X-Real-IP {remote}
-    header_upstream X-Forwarded-For {remote}
-    header_upstream X-Forwarded-Port {server_port}
-    header_upstream X-Forwarded-Proto {scheme}
-  }
+ proxy / http://www.baidu.com
 }" > /usr/local/caddy/Caddyfile
 
-#https访问，该配置会自动签发SSL，请提前解析域名到VPS服务器
-echo "xx.com {
+2、域名反向代理HTTP
+# 以下全部内容是一个整体，是一个命令，全部复制粘贴到SSH软件中并一起执行！
+echo "http://toyoo.ml {
  gzip
- tls admin@moerats.com
- proxy / 127.0.0.1:3000 {
-    header_upstream Host {host}
-    header_upstream X-Real-IP {remote}
-    header_upstream X-Forwarded-For {remote}
-    header_upstream X-Forwarded-Port {server_port}
-    header_upstream X-Forwarded-Proto {scheme}
-  }
+ proxy / http://www.baidu.com
 }" > /usr/local/caddy/Caddyfile
-启动Caddy：/etc/init.d/caddy start
+
+3、域名反向代理HTTPS
+# 以下全部内容是一个整体，是一个命令，全部复制粘贴到SSH软件中并一起执行！
+echo "https://toyoo.ml {
+ gzip
+ tls xxxx@xxx.xx
+ proxy / https://www.baidu.com
+}" > /usr/local/caddy/Caddyfile
+
+启动caddy
+service caddy start
