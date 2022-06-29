@@ -20,12 +20,12 @@ echo "http://toyoo.ml {
  proxy / http://www.baidu.com
 }" > /usr/local/caddy/Caddyfile
 
-3、域名反向代理HTTPS
+3、域名反向代理HTTPS（反代自己的ip（无https）后，用https://域名访问）
 # 以下全部内容是一个整体，是一个命令，全部复制粘贴到SSH软件中并一起执行！
 echo "https://toyoo.ml {
  gzip
  tls xxxx@xxx.xx
- proxy / https://www.baidu.com
+ proxy / http://ip:端口
 }" > /usr/local/caddy/Caddyfile
 
 启动caddy
