@@ -12,4 +12,15 @@ Nginx 1.16.0 , Php 7.3(7.0以上) , Mysql 10.0.38-MariaDB
 location / {
     if (-f $request_filename/index.html){ rewrite (.*) $1/index.html break; } if (-f $request_filename/index.php){ rewrite (.*) $1/index.php; } if (!-f $request_filename){ rewrite (.*) /index.php; } try_files $uri $uri/ /api.php; } location /admin { try_files $uri /admin/index.php?$args;
     }
+或者以下
+location / {
+try_files $uri $uri/ /index.php?$query_string;
+}
+location ~* \.(db3|json)$ {
+  deny all;
+}
+location ~* ^/(temp|upload|imgs|data|application|static|system)/.*.(php|php5)$ {
+    return 403;
+}
+
 6. 自己配置
