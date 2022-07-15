@@ -1,0 +1,13 @@
+新建任务
+screen -S
+重进任务
+screen -r
+查询任务
+screen -ls
+远程detach任务
+screen -d
+退出当前任务
+ctrl+a+d
+彻底结束当前任务
+exit
+
