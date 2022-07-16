@@ -32,7 +32,7 @@ nano config.json（粘贴需要的内容）
     },
     "inbounds": [
         {
-            "listen": "0.0.0.0",(不要改！)
+            "listen": "0.0.0.0", #不要改
             "port": 1234,
             "protocol": "vmess",
             "settings": {
