@@ -1,0 +1,49 @@
+启动cron
+crontab -e
+
+Cron语法
+A B C D E /path/to/command arg1 arg2  
+OR
+A B C D E /root/backup.sh
+
+A：分钟范围：0 – 59
+B：时间范围：0 – 23
+C：天数范围：1 – 31
+D：月范围：1 – 12 or JAN-DEC
+E：星期几：0 – 6 or SUN-SAT，Sunday=0 or 7。
+/path/to/command – 你要计划的脚本或命令的名称
+
+Cron选项
+列出cron作业
+#crontab -l
+OR
+#crontab -u username -l
+
+删除所有crontab作业
+#crontab -r
+
+删除特定用户的Cron作业
+#crontab -r -u username
+
+Crontab中的字符串
+@hourly：每小时运行一次，即"0 * * * *"
+@midnight：每天运行一次，即"0 0 * * *"
+@daily：与午夜相同
+@weekly：每周运行一次，即"0 0 * * 0"
+@monthly：每月运行一次，即"0 0 1 * *"
+@annually：每年运行一次，即"0 0 1 1 *"
+@yearly：与**@annually**相同
+@reboot：每次启动时运行一次
+例如，这是每天备份系统的方法：
+@daily /path/to/backup/script.sh
+
+
+在root下写下.sh脚本
+touch xx.sh # xx为脚本名称，如backup
+编辑文件 
+nano xx.sh
+赋予执行权限
+chmod 700 hello.sh
+
+使用cron自动执行xx.sh
+
