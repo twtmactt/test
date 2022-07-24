@@ -1,0 +1,19 @@
+新建文件（名称自定）
+touch certbot-auto-renew-cron
+
+编辑文件
+nano certbot-auto-renew-cron
+
+写入如下内容
+15 2 * */2 * certbot renew --pre-hook "service nginx stop" --post-hook "service nginx start"  #两个月的 凌晨 2:15 执行
+--pre-hook 这个参数表示执行更新操作之前要做的事情，因为我有 --standalone 模式的证书，所以需要 停止 nginx 服务，解除端口占用。 --post-hook 这个参数表示执行更新操作完成后要做的事情，这里就恢复 nginx 服务的启用
+
+赋予执行权限
+chmod 700 certbot-auto-renew-cron
+
+启动定时任务
+crontab certbot-auto-renew-cron
+
+或直接crontab -e编辑？？
+
+
