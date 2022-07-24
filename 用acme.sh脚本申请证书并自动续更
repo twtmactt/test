@@ -1,11 +1,3 @@
-用acme.sh脚本申请证书并自动续更
-作者: 毕世平 时间: 2019-11-14 分类: vps,acme证书
-前言：acme.sh脚本实现了acme协议，可以从letsencrypt生成免费的证书，并且支持手动发行免费的通配符证书，这对广大个人站长无疑是个很大的福利。
-
-本文则主要介绍使用acme.sh脚本搭配Cloudflare的Global API Key来为托管在Cloudflare上的域名申请证书，并实现到期自动续订的步骤。
-
-本文参考：https://github.com/Neilpang/acme.sh/wiki/%E8%AF%B4%E6%98%8E
-
 一、安装acme.sh脚本
 1.1 执行下面的命令
 apt-get update && apt-get -y install socat //安装socat
