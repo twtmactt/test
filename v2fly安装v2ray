@@ -67,7 +67,7 @@ systemctl start v2ray
 
 移除
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --remove
-firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
+firewall-cmd --zone=public --add-port=/tcp --permanent    //永久将xxx端口加入开启规则
 firewall-cmd --reload
 
 (for centos : systemctl enable v2ray)
