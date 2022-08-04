@@ -1,0 +1,2 @@
+使用F12查看网页信息，或者在视频上右键---检查
+点击console--输入代码 document.querySelector("video").playbackRate="8"  即为8倍速播放
