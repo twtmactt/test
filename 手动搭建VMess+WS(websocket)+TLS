@@ -78,7 +78,7 @@ server{
     listen 80;
     server_name 域名;
     index index.html;
-    root /root/www/;
+    root /root/www;
 }
 
 nano /etc/nginx/nginx.conf
