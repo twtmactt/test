@@ -89,6 +89,12 @@ systemctl start nginx
 systemctl enable nginx
 systemctl status nginx
 
+安装snapd
+apt-get install snapd
+安装snapd core 
+snap install core
+snap refresh core
+
 安装certbot并申请ssl证书
 snap install --classic certbot
 
