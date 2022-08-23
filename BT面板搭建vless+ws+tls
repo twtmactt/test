@@ -1,0 +1,115 @@
+一、安装bt面板并安装Nginx
+
+二、新建网站
+修改index.html文件并添加一下内容（文字部分需自行修改）
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> #解决中文乱码
+<head>
+<title>学习</title>
+</head>
+<body>
+<h1>文章标题</h1>
+<p><font color="red">文章内容</font></p>
+<img src="此处为图片的地址">
+<p>点此链接进行更多学习<a href="链接网址">链接名称</a></p>
+<body style="background-color:lavender;">
+<p style="background-color:indianred;">
+<br>
+</body>
+</html>
+
+三、开放端口
+443  v2ray配置端口 80 
+
+三、申请SSL证书
+
+四、修改Nginx配置文件（在#SSL-END后面添加下列内容）并重启Nginx
+location /tech
+{
+    proxy_pass http://127.0.0.1:你的端口号;
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $http_host;
+    proxy_read_timeout 300s;
+}
+
+五、安装V2ray
+// 安裝執行檔和 .dat 資料檔
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+// 只更新 .dat 資料檔
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)
+启动v2ray:systemctl start v2ray
+设置v2ray开机自启:systemctl enable v2ray
+查看v2ray的状态:systemctl status v2ray
+
+六、配置v2ray并重启v2ray
+nano /usr/local/etc/v2ray/config.json
+{
+  "log": {
+        "access": "/var/log/v2ray/access.log",
+        "error": "/var/log/v2ray/error.log",
+        "loglevel": "warning"
+    },
+  "inbounds": [
+    {
+    "port":你的端口,
+      "listen": "127.0.0.1",
+      "tag": "VLESS-in",
+      "protocol": "VLESS",
+      "settings": {
+        "clients": [
+          {
+          "id":"你的 UUID",
+            "alterId": 0
+          }
+        ],
+            "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path":"/tech" 
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": { },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": { },
+      "tag": "blocked"
+    }
+  ],
+  "dns": {
+    "servers": [
+      "https+local://1.1.1.1/dns-query",
+          "1.1.1.1",
+          "1.0.0.1",
+          "8.8.8.8",
+          "8.8.4.4",
+          "localhost"
+    ]
+  },
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "VLESS-in"
+        ],
+        "outboundTag": "direct"
+      }
+    ]
+  }
+}
+
+电脑端配置间图https://photoself.eu.org/images/2022/08/23/1111.png
