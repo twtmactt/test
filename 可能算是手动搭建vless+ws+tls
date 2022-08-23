@@ -62,6 +62,7 @@ ln -s /snap/bin/certbot /usr/bin/certbot
 certbot --nginx
 
 四、修改Nginx配置文件（在第一个server中添加如下内容）并重启Nginx
+nano /etc/nginx/sites-enabled/default
 location /tech
 {
     proxy_pass http://127.0.0.1:你的端口号;
