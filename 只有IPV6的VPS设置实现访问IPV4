@@ -1,0 +1,15 @@
+DNS64地址分别是：
+
+2001:67c:2b0::4
+2001:67c:2b0::6
+
+2001:67c:27e4:15::6411
+2001:67c:27e4::64
+
+2a03:7900:2:0:31:3:104:161
+
+修改/etc/resolv.conf
+删除原内容(注意备份)。添加DNS服务器，服务器为上列的3选其一，或者全写上应该也是可以的
+
+执行脚本
+mv /etc/resolv.conf /etc/resolv.conf.bak && echo -e "nameserver 2001:67c:2b0::4\nnameserver 2001:67c:2b0::6" > /etc/resolv.conf
