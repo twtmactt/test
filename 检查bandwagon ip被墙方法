@@ -1,0 +1,4 @@
+进入想要检测的 VPS 的 KiwiVM 控制面板查看 VPS ID
+
+登录 KiwiVM 控制面板之后，打开下面的链接（把其中的 VPSID 换成你自己的 VPSID）
+https://kiwivm.64clouds.com/VPSID/main-exec.php?mode=blacklistcheck
