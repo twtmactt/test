@@ -1,0 +1,94 @@
+准备工作：
+
+一台vps带公网IP，ubuntu 18.04+ 即可，root用户
+
+一个解析到你vps公网IP的域名【如 vmess.v2ray.one】
+
+第一部分 [ 手动配置v2ray ]
+
+# 配置系统时区为东八区
+
+rm -f /etc/localtime
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# ubuntu官方源安装nginx和依赖包并设置开机启动
+
+apt clean all && apt update
+apt install nginx curl pwgen openssl netcat cron uuid-runtime -y
+systemctl enable nginx
+systemctl start nginx
+ufw disable
+# 开始部署之前，我们先配置一下需要用到的参数，如下：
+
+# “域名，端口，uuid，ws路径，ssl证书目录“
+
+# “ngin和v2ray配置文件目录“
+
+#1.设置你的解析好的域名，如本例子中的vmess.v2ray.one
+domainName="vmess.v2ray.one"
+
+#2.随机生成v2ray需要用到的服务端口
+port="`shuf -i 20000-65000 -n 1`"
+
+#3.随机生成一个uuid
+uuid="`uuidgen`"
+
+#4.随机生成一个websocket需要使用的path
+path="/`pwgen -A0 6 8 | xargs |sed 's/ /\//g'`"
+
+#5.以时间为基准随机创建一个存放ssl证书的目录
+ssl_dir="$(mkdir -pv "/usr/local/etc/v2ray/ssl/`date +"%F-%H-%M-%S"`" |awk -F"'" END'{print $2}')"
+
+#6.定义nginx和v2ray配置文件路径
+nginxConfig="/etc/nginx/conf.d/v2ray.conf"
+v2rayConfig="/usr/local/etc/v2ray/config.json"
+wait;"/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" &> /root/renew_ssl.log
+wait;/etc/init.d/nginx start
+' > /usr/local/bin/ssl_renew.sh
+chmod +x /usr/local/bin/ssl_renew.sh
+(crontab -l;echo "15 03 * * * /usr/local/bin/ssl_renew.sh") | crontab
+# 配置nginx，执行如下命令即可添加nginx配置文件
+
+echo "
+server {
+	listen 80;
+	server_name "$domainName";
+	return 301 https://"'$host$request_uri'";
+
+}
+server {
+	listen 443 ssl http2 default_server;
+	listen [::]:443 ssl http2 default_server;
+	server_name "$domainName";
+
+	ssl_certificate $ssl_dir/v2ray.crt;
+	ssl_certificate_key $ssl_dir/v2ray.key;
+	ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+ECDSA+AES128:EECDH+aRSA+AES128:RSA+AES128:EECDH+ECDSA+AES256:EECDH+aRSA+AES256:RSA+AES256:EECDH+ECDSA+3DES:EECDH+aRSA+3DES:RSA+3DES:"!"MD5;
+	ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+
+	root /usr/share/nginx/html;
+	
+	location "$path" {
+		proxy_redirect off;
+		proxy_pass http://127.0.0.1:"$port";
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade "'"$http_upgrade"'";
+		proxy_set_header Connection '"'upgrade'"';
+		proxy_set_header Host "'"$http_host"'";
+	}
+
+}
+" > $nginxConfig
+
+systemctl restart v2ray
+systemctl status -l v2ray
+/usr/sbin/nginx -t && systemctl restart nginx
+# 输出配置信息
+
+echo
+echo "域名: $domainName" 
+echo "UUID: $uuid" 
+[ "vless" = "$2" ] && echo "协议：vless" || echo "额外ID: 0" 
+echo "安全: tls"
+echo "传输: websocket"
+echo "路径: $path"
+# 注：为适应v2ray-core目前和未来的版本更新，vmess协议额外ID选项已移除，客户端vmess协议额外id配置为0即可，当前最新版v2rayN客户端已默认为0
