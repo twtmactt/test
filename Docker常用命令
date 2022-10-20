@@ -1,0 +1,14 @@
+docker container ls -a
+docker container rm
+
+设置自动重启
+1创建容器时设定
+docker run -d --restart=always --name 容器名 使用镜像
+重启策略 --restart 具体参数
+no  //默认策略，容器退出时不重启
+on-failure  //非正常退出时，才重启
+on-failure:3  //非正常退出时，才重启，最多三次
+alwayls  //无论推出状态如何，都重启
+
+2修改已有容器
+docker update --restart=always 容器id或容器名
