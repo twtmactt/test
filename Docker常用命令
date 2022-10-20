@@ -12,3 +12,8 @@ alwayls  //无论推出状态如何，都重启
 
 2修改已有容器
 docker update --restart=always 容器id或容器名
+
+
+删除docker镜像
+1、查看命令  docker images
+2、删除命令  docker image rm [image]
