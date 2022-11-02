@@ -2,10 +2,12 @@
 先进入宝塔面板，然后点击左侧网站，添加站点，然后再点击添加好了的域名名称，这时候就进入了站点配置，点击反向代理，
 目标URL填入http://127.0.0.1:3000（你的访问端口），再启用反向代理即可。至于启用SSL就不说了，直接在站点配置就可以启用。
 
-2、Caddy反代(打开端口80，443，网站端口)
+2、Caddy反代(打开端口80，443，网站端口)（在amd系统下可使用）
 wget -N --no-check-certificate https://raw.githubusercontent.com/iiiiiii1/doubi/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh
 #备用地址
 wget -N --no-check-certificate https://www.moerats.com/usr/shell/Caddy/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh
+
+
 1、服务器IP反向代理(改为绑定的域名，即为域名访问)
 # 以下全部内容是一个整体，是一个命令，全部复制粘贴到SSH软件中并一起执行！
 echo ":80 {
