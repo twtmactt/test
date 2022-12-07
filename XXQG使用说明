@@ -1,4 +1,6 @@
 使用方法：
+docker run --name 自定 -d -p 自定:8080 -v /etc/study_xxqg/:/opt/config/  jolanse/study_xxqg:latest
+
 win:  telegram的代理如文本，网页端配置host和port不修改
 vps:  telegram不填写，网页端配置host和port不修改
 # 刷课模式，默认为3，
