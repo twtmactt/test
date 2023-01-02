@@ -1,3 +1,19 @@
+
+安装Docker
+法一：安装docker 
+## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
+                       snap install docker
+## Centos 7 系统：wget -qO- get.docker.com | bash 
+法二：官方https://docs.docker.com/engine/install/
+
+3.启动docker/允许开机启动
+systemctl start docker 
+systemctl enable docker 
+
+4.部署docker管理界面
+docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock \
+--name ui --restart=always lihaixin/portainer:me
+
 docker container ls -a
 docker container rm
 
