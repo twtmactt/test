@@ -33,3 +33,15 @@ docker update --restart=always 容器id或容器名
 删除docker镜像
 1、查看命令  docker images
 2、删除命令  docker image rm [image]
+
+现有镜像重做tag并上传到自己的Repository（需要先登录docker）
+docker login
+#语法说明 docker tag local-image:tagname new-repo:tagname
+#语法说明 docker push new-repo:tagname
+#实践，做tag
+docker tag 已有REPOSITORY:tag 想要改的REPOSITORY:tag
+#实践，push镜像到docker hub repository
+docker push  想要改的REPOSITORY:tag
+
+docker镜像下载到本地（home位置可以更改）
+docker save imageid > /home/容器名.tar
