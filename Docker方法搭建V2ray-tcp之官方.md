@@ -1,6 +1,8 @@
 1.安装BBR
 
-2.拉取v2ray镜像
+2.安装docker  
+
+3.拉取v2ray镜像
 ```
 mkdir -p /etc/v2ray
 sudo docker pull v2fly/v2fly-core
