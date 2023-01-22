@@ -1,39 +1,47 @@
-1.搭建aria2 (hostsolutions debian先安装unzip && curl)
-wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/aria2.sh && chmod +x aria2.sh && bash aria2.sh
-#备用地址
-wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh && chmod +x aria2.sh && bash aria2.sh
-其他操作
-启动：service aria2 start
-停止：service aria2 stop
-重启：service aria2 restart
-查看状态：service aria2 status
+1.搭建aria2 (hostsolutions debian先安装unzip && curl)  
+wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/aria2.sh && chmod +x aria2.sh && bash aria2.sh  
+#备用地址  
+wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh && chmod +x aria2.sh && bash aria2.sh  
+其他操作  
+```
+启动：service aria2 start  
+停止：service aria2 stop  
+重启：service aria2 restart  
+查看状态：service aria2 status  
 配置文件：/root/.aria2/aria2.conf（配置文件包含中文注释，但是一些系统可能不支持显示中文）
 下载目录：/usr/local/caddy/www/aria2/Download（该目录为Github下载安装的，而备用地址下载的默认为/usr/local/caddy/www/file）
-mkdir -p /data/Download（并修改下载目录）
+```
+新建下载目录并修改
+```mkdir -p /data/Download```
 
 
-2.安装rclone
-curl https://rclone.org/install.sh | sudo bash
-##wget https://www.moerats.com/usr/shell/rclone_debian.sh && bash rclone_debian.sh
+2.安装rclone  
+```curl https://rclone.org/install.sh | sudo bash```  
+或者
+```wget https://www.moerats.com/usr/shell/rclone_debian.sh && bash rclone_debian.sh```
 
-3.客户端授权（上传GD跳过这一步）
-在本地Windows电脑上下载rclone，下载地址：https://rclone.org/downloads/。然后解压出来，比如我解压到D盘，文件夹命名rclone，此时点击Win+R，然后输入cmd，确定。再输入以下命令：
+3.客户端授权（上传GD跳过这一步）  
+在本地Windows电脑上下载rclone，下载地址：https://rclone.org/downloads/。   
+然后解压出来，比如我解压到D盘，文件夹命名rclone，此时点击Win+R，然后输入cmd，确定。再输入以下命令：
+```
 cd /d d:\rclone
 rclone authorize "onedrive"
-复制token:
+```
+复制token:  
 {"access_token":"xxxx"}  
 <---End paste    #请复制{xx}整个内容，后面需要用到
 
-4.配置rclone，添加网盘
+4.配置rclone，添加网盘  
 
-然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。
-vim /root/.aria2/aria2.conf
-on-download-complete=/root/rcloneupload.sh
-/etc/init.d/aria2 restart
+然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。  
+```vim /root/.aria2/aria2.conf  
+on-download-complete=/root/rcloneupload.sh  
+/etc/init.d/aria2 restart```
 
-5.配置上传脚本
-vim /root/rcloneupload.sh
-复制粘贴修改以下内容
+5.配置上传脚本  
+```vim /root/rcloneupload.sh```
+复制粘贴修改以下内容  
+```
 #!/bin/bash
 
 filepath=$3	 #取文件原始路径，如果是单文件则为/Download/a.mp4，如果是文件夹则该值为文件夹内第一个文件比如/Download/a/1.mp4
@@ -63,5 +71,6 @@ elif [ "$path" != "$downloadpath" ]	#如果下载的是文件夹
     exit 0
 fi
 done
-保存后给予执行权限
-chmod +x /root/rcloneupload.sh
+```
+保存后给予执行权限  
+```chmod +x /root/rcloneupload.sh```
