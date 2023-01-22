@@ -9,11 +9,11 @@ snap install docker
 ## Centos 7 系统：  
 ```
 wget -qO- get.docker.com | bash 
-   
-法二：官方https://docs.docker.com/engine/install/  
 
+法二：官方https://docs.docker.com/engine/install/  
+ ```  
 3.启动docker/允许开机启动  
-```
+
 systemctl start docker 
 systemctl enable docker 
 ```
