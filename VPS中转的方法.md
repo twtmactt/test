@@ -1,9 +1,10 @@
-两台VPS：VPS1为常用不解锁机，VPS2为流媒体解锁机
-1、在VPS2安装v2ray，开启端口，安装BBR
-2、在VPS1上搭建VMess+WS(websocket)+TLS  
-步骤参考https://github.com/twtmactt/test/blob/master/%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BAVMess%2BWS(websocket)%2BTLS
+两台VPS：VPS1为常用不解锁机，VPS2为流媒体解锁机  
+1、在VPS2安装v2ray，开启端口，安装BBR  
+2、在VPS1上搭建VMess+WS(websocket)+TLS    
+步骤参考https://github.com/twtmactt/test/blob/master/%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BAVMess%2BWS(websocket)%2BTLS  
 修改部分如下：
 编辑配置文件的内容改为
+```
 {
     "log": {
         "loglevel": "warning",
@@ -66,8 +67,9 @@
         }
     ]
 }
-
-nginx配置文件添加部分为
+```  
+nginx配置文件添加部分为  
+```
 location /tech {
       proxy_redirect off;
       proxy_pass http://127.0.0.1:10085;  #vps1的端口
@@ -79,4 +81,4 @@ location /tech {
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
-
+```
