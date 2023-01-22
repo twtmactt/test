@@ -1,7 +1,11 @@
 1.搭建aria2 (hostsolutions debian先安装unzip && curl)  
+```
 wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/aria2.sh && chmod +x aria2.sh && bash aria2.sh  
+```
 #备用地址  
+```
 wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh && chmod +x aria2.sh && bash aria2.sh  
+```
 其他操作  
 ```
 启动：service aria2 start  
