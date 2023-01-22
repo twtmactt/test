@@ -44,7 +44,7 @@ on-download-complete=/root/rcloneupload.sh
 ```
 
 5.配置上传脚本  
-```vim /root/rcloneupload.sh```
+```vim /root/rcloneupload.sh```  
 复制粘贴修改以下内容 
 
 ```
