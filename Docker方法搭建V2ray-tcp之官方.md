@@ -1,15 +1,7 @@
 1.安装BBR
-2.安装Docker
-法一：安装docker 
-## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
-## Centos 7 系统：wget -qO- get.docker.com | bash 
-法二：官方https://docs.docker.com/engine/install/
 
-3.启动docker/允许开机启动
-systemctl start docker 
-systemctl enable docker 
-
-4.拉取v2ray镜像
+2.拉取v2ray镜像
+```
 mkdir -p /etc/v2ray
 sudo docker pull v2fly/v2fly-core
 cat > /etc/v2ray/config.json <<EOF
@@ -44,8 +36,11 @@ firewall-cmd --reload
 
 查看运行状态
 sudo docker container ls
+```
 
 ###通过以下命令来控制 V2Ray：
+```
 sudo docker container start v2ray
 sudo docker container stop v2ray
 sudo docker container restart v2ray
+```
