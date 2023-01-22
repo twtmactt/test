@@ -40,13 +40,15 @@ rclone authorize "onedrive"
 然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。  
 ```vim /root/.aria2/aria2.conf  
 on-download-complete=/root/rcloneupload.sh  
-/etc/init.d/aria2 restart```
+/etc/init.d/aria2 restart
+```
 
 5.配置上传脚本  
 ```vim /root/rcloneupload.sh```
 复制粘贴修改以下内容 
 
-```#!/bin/bash
+```
+#!/bin/bash
 filepath=$3	 #取文件原始路径，如果是单文件则为/Download/a.mp4，如果是文件夹则该值为文件夹内第一个文件比如/Download/a/1.mp4
 path=${3%/*}	 #取文件根路径，如把/Download/a/1.mp4变成/Download/a
 downloadpath='/data/Download'	#Aria2下载目录
@@ -71,7 +73,8 @@ elif [ "$path" != "$downloadpath" ]	#如果下载的是文件夹
     rm -vf "$path".aria2	#删除残留的.aria2文件
     exit 0
 fi
-done```
+done
+```
 
 保存后给予执行权限  
 ```chmod +x /root/rcloneupload.sh```
