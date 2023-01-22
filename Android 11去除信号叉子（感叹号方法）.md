@@ -8,8 +8,10 @@
    将所有名字含adb的文件放Windows/SysWOW64下
    （32位系统执行前两个即可）
 4. 在电脑开始菜单-运行 输入cmd，打开命令提示符，依次输入下面语句（支持android 11）
+ ```
    adb shell settings put global captive_portal_mode 0
    adb shell settings put global captive_portal_https_url https://www.google.cn/generate_204
+```
 5. 开启、关闭飞行模式
 
 备用方法：
