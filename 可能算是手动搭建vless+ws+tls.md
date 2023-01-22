@@ -2,7 +2,7 @@
 ```
 apt update
 ```
-开启端口  https://github.com/twtmactt/test/blob/master/debian%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E6%96%B9%E6%B3%95  
+
 BBR      https://github.com/twtmactt/test/blob/master/%E5%BC%80%E5%90%AFbbr  
 
 二、安装Nginx并配置  
