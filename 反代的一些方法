@@ -62,5 +62,5 @@ rm -rf /root/data/docker_data/npm  # 完全删除映射到本地的数据
 
 反代方法，见下图：
 （注意填写对应的 域名、IP 和 端口是网站端口，如果 Nginx Proxy Manager 和 answer 在同一台服务器上，可以在终端输入：ip addr show docker0，查看对应的 Docker 容器内部 IP。否则直接填 answer 所在的服务器 IP 就行。）
-![11](https://github.com/twtmactt/pics/blob/main/11.JPG)
+!(https://github.com/twtmactt/pics/blob/main/11.JPG?raw=true)
 
