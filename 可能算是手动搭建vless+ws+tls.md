@@ -187,6 +187,6 @@ nano /usr/local/etc/v2ray/config.json
 }
 ```
 
-电脑端配置间图
+电脑端配置图  
 ![image](https://photoself.eu.org/images/2022/08/23/1111.png)
 
