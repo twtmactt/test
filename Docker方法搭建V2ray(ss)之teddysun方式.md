@@ -1,20 +1,8 @@
-1.安装BBR
-2.安装Docker
-法一：安装docker 
-## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
-                       snap install docker
-## Centos 7 系统：wget -qO- get.docker.com | bash 
-法二：官方https://docs.docker.com/engine/install/
+1.安装BBR  
+2.安装Docker  
 
-3.启动docker/允许开机启动
-systemctl start docker 
-systemctl enable docker 
-
-4.部署docker管理界面
-docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock \
---name ui --restart=always lihaixin/portainer:me
-
-5.拉取v2ray镜像
+3.拉取v2ray镜像  
+```
 docker pull teddysun/v2ray
 mkdir -p /etc/v2ray
 cat > /etc/v2ray/config.json <<EOF
@@ -39,15 +27,21 @@ cat > /etc/v2ray/config.json <<EOF
 }
 EOF
 docker run -d -p 9000:9000 --name v2ray --restart=always -v /etc/v2ray:/etc/v2ray teddysun/v2ray
+```
 
+```
 firewall-cmd --zone=public --add-port=6666/tcp --permanent    //永久将6666端口加入开启规则
 firewall-cmd --reload
-###通过以下命令来控制 V2Ray：
+```
+###通过以下命令来控制 V2Ray：  
+```
 sudo docker container start v2ray
 sudo docker container stop v2ray
 sudo docker container restart v2ray
+```
 
-拉取ss镜像
+拉取ss镜像  
+```
 docker pull teddysun/shadowsocks-libev
 mkdir -p /etc/shadowsocks-libev
 cat > /etc/shadowsocks-libev/config.json <<EOF
@@ -63,3 +57,4 @@ cat > /etc/shadowsocks-libev/config.json <<EOF
 }
 EOF
 docker run -d -p 9000:9000 -p 9000:9000/udp --name ss-libev --restart=always -v /etc/shadowsocks-libev:/etc/shadowsocks-libev teddysun/shadowsocks-libev
+```
