@@ -1,5 +1,5 @@
 
-安装Docker
+安装Docker(注意amd和arm是否一致)
 法一：安装docker 
 ## ubuntu/debian 系统: curl -sSL https://get.docker.com/ | sh
                        snap install docker
@@ -10,12 +10,10 @@
 systemctl start docker 
 systemctl enable docker 
 
-4.部署docker管理界面
-docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock \
---name ui --restart=always lihaixin/portainer:me
+安装docker-compose(注意amd和arm是否一致)
+apt-get install docker-compose
+docker-compose --version
 
-docker container ls -a
-docker container rm
 
 设置自动重启
 1创建容器时设定
