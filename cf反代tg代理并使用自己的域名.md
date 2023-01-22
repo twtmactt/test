@@ -38,7 +38,9 @@ async function handleRequest(request) {
 在cf中首页已经托管的域名中新增一个DNS解析，类型   A   ，名称自定义（这里假设为tg，即子域名为tg.woaixx.cf ，IPv4 随便填，最重要的是开启代理（一朵小黄云）  
 
 2.关联域名  
-进入域名首页，侧边栏workers，添加路由，路由填写上一步的子域名 + /*，比如我刚刚DNS解析的域名是tg.woaixx.cf，那在路由一栏则填写   tg.woaixx.cf/*   ，服务选择刚创建的Worker（tg），环境选择production，必须先创建Worker再来关联域名，表示通过这个自定义的域名来访问Worker服务  
+进入域名首页，侧边栏workers，添加路由，路由填写上一步的子域名 + /*，  
+比如我刚刚DNS解析的域名是tg.woaixx.cf，那在路由一栏则填写   tg.woaixx.cf/* ，  
+服务选择刚创建的Worker（tg），环境选择production，必须先创建Worker再来关联域名，表示通过这个自定义的域名来访问Worker服务  
 
 3.使用域名  
 直接使用     tg.woaixx.cf   代理tg机器人
