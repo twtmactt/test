@@ -22,8 +22,11 @@ uname -a     看看是不是变成 4.10 内核了
 sudo modprobe tcp_bbr
 echo "tcp_bbr" | sudo tee -a /etc/modules-load.d/modules.conf
 ```
-装载后，再执行 
-```sysctl net.ipv4.tcp_available_congestion_control ```
+装载后，再执行   
+```
+sysctl net.ipv4.tcp_available_congestion_control
+```
+
 你就可以看到 BBR 出现在输出结果里了。  
 
 接下去再正式启用它：  
