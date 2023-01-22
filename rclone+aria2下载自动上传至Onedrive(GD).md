@@ -21,7 +21,7 @@ wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh 
 
 2.安装rclone  
 ```curl https://rclone.org/install.sh | sudo bash```  
-或者
+或者  
 ```wget https://www.moerats.com/usr/shell/rclone_debian.sh && bash rclone_debian.sh```
 
 3.客户端授权（上传GD跳过这一步）  
@@ -44,7 +44,8 @@ on-download-complete=/root/rcloneupload.sh
 
 5.配置上传脚本  
 ```vim /root/rcloneupload.sh```
-复制粘贴修改以下内容  
+复制粘贴修改以下内容 
+
 ```#!/bin/bash
 filepath=$3	 #取文件原始路径，如果是单文件则为/Download/a.mp4，如果是文件夹则该值为文件夹内第一个文件比如/Download/a/1.mp4
 path=${3%/*}	 #取文件根路径，如把/Download/a/1.mp4变成/Download/a
