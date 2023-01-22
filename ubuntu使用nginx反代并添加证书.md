@@ -3,14 +3,14 @@
 sudo apt-get install -y nginx
 ```
 安装后查看nginx版本  
-```nginx -v```
+```nginx -v```  
 启动并查看状态  
 ```
 sudo systemctl start nginx
 sudo systemctl status nginx
 ```
 创建一个新的配置文件，写下如下配置  
-```nano /etc/nginx/conf.d/xxx.conf # xxx为任意名称```
+```nano /etc/nginx/conf.d/xxx.conf # xxx为任意名称```  
 配置内容  
 ```
 server {
