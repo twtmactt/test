@@ -1,11 +1,11 @@
-# 安装nginx  
-# 修改配置文件  
+## 1.安装nginx  
+## 2.修改配置文件  
 注： 不同版本的nginx配置文件可能有区别，我的是nginx/1.18.0，配置文件/etc/nginx/sites-enabled/default。  
 或者你的配置文件可能在/etc/nginx/conf.d/default.conf（自测是在/etc/nginx/sites-enabled/default）
 ```
 nano /etc/nginx/sites-enabled/default
 ```
-# 删除原内容，添加如下内容  
+## 3.删除原内容，添加如下内容  
 ```
 server {
     listen       80;
