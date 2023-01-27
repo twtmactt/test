@@ -38,7 +38,8 @@ rclone authorize "onedrive"
 4.配置rclone，添加网盘  
 
 然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。  
-```vim /root/.aria2/aria2.conf  
+```
+nano /root/.aria2/aria2.conf  
 on-download-complete=/root/rcloneupload.sh  
 /etc/init.d/aria2 restart
 ```
