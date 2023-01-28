@@ -1,12 +1,12 @@
-# 关闭防火墙，开启bbr,解析好域名
+# 1.关闭防火墙，开启bbr,解析好域名
 
-# 安装最新版V2ray
+# 2.安装最新版V2ray
 ```
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)
 ```
 
-# 编辑配置文件的内容  
+# 3.编辑配置文件的内容  
 ```nano /usr/local/etc/v2ray/config.json```  
 ```
 {
@@ -81,18 +81,18 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 }
 ```
 
-# 设置开机自启并启动v2ray服务：
+# 4.设置开机自启并启动v2ray服务：
 ```
 systemctl enable v2ray
 systemctl restart v2ray
 ```
 
-# 安装nginx socat
+# 5.安装nginx socat
 ```
 apt install socat nginx
 ```
 
-# 安装证书
+# 6.安装证书
 ```
 curl https://get.acme.sh | sh
 
@@ -109,7 +109,7 @@ acme.sh --install-cert -d 域名 --ecc --fullchain-file /etc/ssl/private/fullcha
 chown -R nobody:nogroup /etc/ssl/private/
 ```
 
-# 修改nginx配置文件
+# 7.修改nginx配置文件
 ```
 nano /etc/nginx/nginx.conf
 ```
@@ -148,14 +148,14 @@ http {
   }
 }
 ```
-# 重新加载nginx  
+# 8.重新加载nginx  
 ```systemctl reload nginx```  
 
-# 查看nginx启动状态  
+# 9.查看nginx启动状态  
 ```systemctl status nginx```  
 
-# 重启v2ray  
+# 10.重启v2ray  
 ```systemctl restart v2ray```  
 
-# 查看v2ray启动状态  
+# 11.查看v2ray启动状态  
 ```systemctl status v2ray```
