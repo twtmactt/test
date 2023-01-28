@@ -87,7 +87,7 @@ systemctl enable v2ray
 systemctl restart v2ray
 ```
 
-# 5.安装nginx socat
+# 5.安装socat
 ```
 apt install socat nginx
 ```
@@ -109,7 +109,12 @@ acme.sh --install-cert -d 域名 --ecc --fullchain-file /etc/ssl/private/fullcha
 chown -R nobody:nogroup /etc/ssl/private/
 ```
 
-# 7.修改nginx配置文件
+# 7.安装nginx
+```
+apt install nginx
+```
+
+# 8.修改nginx配置文件
 ```
 nano /etc/nginx/nginx.conf
 ```
@@ -148,14 +153,14 @@ http {
   }
 }
 ```
-# 8.重新加载nginx  
+# 9.重新加载nginx  
 ```systemctl reload nginx```  
 
-# 9.查看nginx启动状态  
+# 10.查看nginx启动状态  
 ```systemctl status nginx```  
 
-# 10.重启v2ray  
+# 11.重启v2ray  
 ```systemctl restart v2ray```  
 
-# 11.查看v2ray启动状态  
+# 12.查看v2ray启动状态  
 ```systemctl status v2ray```
