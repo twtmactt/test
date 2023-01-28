@@ -44,8 +44,8 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
           ],
           "certificates": [
             {
-              "certificateFile": "/path/to/fullchain.crt",  // 换成你的证书，绝对路径
-              "keyFile": "/path/to/private.key"  // 换成你的私钥，绝对路径
+              "certificateFile": "/etc/ssl/private/fullchain.cer",  // 换成你的证书，绝对路径
+              "keyFile": "/etc/ssl/private/private.key"  // 换成你的私钥，绝对路径
             }
           ]
         }
