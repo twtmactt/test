@@ -89,7 +89,7 @@ systemctl restart v2ray
 
 # 5.安装socat
 ```
-apt install socat nginx
+apt install socat
 ```
 
 # 6.安装证书
