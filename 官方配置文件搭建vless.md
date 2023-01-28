@@ -164,3 +164,7 @@ http {
 
 # 12.查看v2ray启动状态  
 ```systemctl status v2ray```
+
+# 13.手机端使用注意事项：  
+安卓：流控（flow）关掉，alpn选择http/1.1（我也不知道为什么，这么能用）  
+ios：二维码导入就行
