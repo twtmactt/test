@@ -18,11 +18,31 @@ systemctl start docker
 systemctl enable docker 
 ```
 
-安装docker-compose(注意amd和arm是否一致)  
+安装docker-compose
 ```
 apt-get install docker-compose
 docker-compose --version
 ```
+arm系统使用pip安装 
+```
+apt install pip
+pip install docker-compose
+or
+pip3 install docker-compose
+```
+
+卸载docker-composer
+通过pip:  
+```
+pip uninstall docker-compose
+or
+pip3 uninstall docker-compose
+```
+
+通过curl：  
+```
+sudo rm /usr/local/bin/docker-compose
+```  
 
 设置自动重启  
 1创建容器时设定  
