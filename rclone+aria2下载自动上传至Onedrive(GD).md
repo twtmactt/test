@@ -23,9 +23,7 @@ wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh 
 ```curl https://rclone.org/install.sh | sudo bash```  
 或者  
 ```wget https://www.moerats.com/usr/shell/rclone_debian.sh && bash rclone_debian.sh```  
-配置方法见文件：
-https://github.com/twtmactt/test/blob/master/aria2%2Bgoogledrive  
-https://github.com/twtmactt/test/blob/master/rclone%20%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95  
+
 
 3.客户端授权（上传GD跳过这一步）  
 在本地Windows电脑上下载rclone，下载地址：https://rclone.org/downloads/。   
@@ -45,7 +43,11 @@ rclone authorize "onedrive"
 nano /root/.aria2/aria2.conf  
 on-download-complete=/root/rcloneupload.sh  
 /etc/init.d/aria2 restart
-```
+```  
+
+rclone启动和自启见文件：  
+https://github.com/twtmactt/test/blob/master/aria2%2Bgoogledrive  
+https://github.com/twtmactt/test/blob/master/rclone%20%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95    
 
 5.配置上传脚本  
 ```vim /root/rcloneupload.sh```  
