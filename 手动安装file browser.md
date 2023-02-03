@@ -1,36 +1,17 @@
-安装filebrowser
+1.安装docker
+2.下载filebrowser镜像  
 ```
-curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
+docker pull filebrowser/filebrowser
 ```
-创建配置数据库：
+3.创建filebrowser挂载所需要的目录
 ```
-filebrowser -d /etc/filebrowser.db config init
+mkdir /root/filebrowser
 ```
-设置监听地址：
+4.启动filebrowser
 ```
-filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0
-```
-设置监听端口：
-```
-filebrowser -d /etc/filebrowser.db config set --port 8088
-```
-设置日志位置：
-```
-filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log
-```
-添加一个用户：
-```
-filebrowser -d /etc/filebrowser.db users add root password --perm.admin
-```
-其中的root和password分别是用户名和密码，根据自己的需求更改。  
-
-开启端口  
-
-配置修改好以后，就可以启动 File Browser   
-```
-filebrowser -d /etc/filebrowser.db
+docker run -d -v /root/downloads:/srv -v /root/filebrowser/filebrowserconfig.json:/etc/config.json -v /root/filebrowser/database.db:/etc/database.db --name myfile -p 8081:80 filebrowser/filebrowser:s6
 ```
 
-后台运行
-使用screen命令
-screen -S filebrowser（创建一个screen会话，在该会话里运行filebrowser，启动后使用Ctrl+a,d离开会话）
+默认用户名密码：```admin```  
+
+官方文档：https://filebrowser.org/installation
