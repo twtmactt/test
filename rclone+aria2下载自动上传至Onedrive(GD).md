@@ -1,28 +1,13 @@
-1.搭建aria2 (hostsolutions debian先安装unzip && curl)  
+1.搭建aria2 
 ```
-wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/aria2.sh && chmod +x aria2.sh && bash aria2.sh  
+apt install sudo wget curl ca-certificates  
+wget -N git.io/aria2.sh && chmod +x aria2.sh  
+./aria2.sh  
 ```
-#备用地址  
-```
-wget -N --no-check-certificate https://www.moerats.com/usr/shell/Aria2/aria2.sh && chmod +x aria2.sh && bash aria2.sh  
-```
-其他操作  
-```
-启动：service aria2 start  
-停止：service aria2 stop  
-重启：service aria2 restart  
-查看状态：service aria2 status  
-配置文件：/root/.aria2/aria2.conf（配置文件包含中文注释，但是一些系统可能不支持显示中文）
-下载目录：/usr/local/caddy/www/aria2/Download（该目录为Github下载安装的，而备用地址下载的默认为/usr/local/caddy/www/file）
-```
-新建下载目录并修改
-```mkdir -p /data/Download```
-
 
 2.安装rclone  
-```curl https://rclone.org/install.sh | sudo bash```  
-或者  
-```wget https://www.moerats.com/usr/shell/rclone_debian.sh && bash rclone_debian.sh```  
+```sudo -v ; curl https://rclone.org/install.sh | sudo bash```  
+官方地址：https://rclone.org/downloads/
 
 
 3.客户端授权（上传GD跳过这一步）  
@@ -38,49 +23,100 @@ rclone authorize "onedrive"
 
 4.配置rclone，添加网盘  
 
-然后再到 Aria2 配置文件中加上一行 on-download-complete=/root/rcloneupload.sh 即可，后面为脚本的路径。重启 Aria2 生效。  
-```
-nano /root/.aria2/aria2.conf  
-on-download-complete=/root/rcloneupload.sh  
-/etc/init.d/aria2 restart
-```  
-
-rclone启动和自启见文件：  
-https://github.com/twtmactt/test/blob/master/aria2%2Bgoogledrive  
-https://github.com/twtmactt/test/blob/master/rclone%20%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95    
-
 5.配置上传脚本  
-```vim /root/rcloneupload.sh```  
+```nano autoupload.sh```  
 复制粘贴修改以下内容 
 
 ```
 #!/bin/bash
-filepath=$3	 #取文件原始路径，如果是单文件则为/Download/a.mp4，如果是文件夹则该值为文件夹内第一个文件比如/Download/a/1.mp4
-path=${3%/*}	 #取文件根路径，如把/Download/a/1.mp4变成/Download/a
-downloadpath='/data/Download'	#Aria2下载目录
-name='codesofun' #配置Rclone时的name
-folder='/share'	 #网盘里的文件夹，如果是根目录直接留空
-MinSize='10k'	 #限制最低上传大小，默认10k，BT下载时可防止上传其他无用文件。会删除文件，谨慎设置
-MaxSize='15G'	 #限制最高文件大小，默认15G，OneDrive上传限制
-if [ $2 -eq 0 ]; then exit 0; fi
-while true; do
-if [ "$path" = "$downloadpath" ] && [ $2 -eq 1 ]	#如果下载的是单个文件
-    then
-    rclone move -v "$filepath" ${name}:${folder} --min-size $MinSize --max-size $MaxSize
-    rm -vf "$filepath".aria2	#删除残留的.aria.2文件
-    exit 0
-elif [ "$path" != "$downloadpath" ]	#如果下载的是文件夹
-    then
-    while [[ "`ls -A "$path/"`" != "" ]]; do
-    rclone move -v "$path" ${name}:/${folder}/"${path##*/}" --min-size $MinSize --max-size $MaxSize --delete-empty-src-dirs
-    rclone delete -v "$path" --max-size $MinSize	#删除多余的文件
-    rclone rmdirs -v "$downloadpath" --leave-root	#删除空目录，--delete-empty-src-dirs 参数已实现，加上无所谓
-    done
-    rm -vf "$path".aria2	#删除残留的.aria2文件
-    exit 0
-fi
+#=================================================
+# Description: Aria2 download completes calling Rclone upload
+# Lisence: MIT
+# Version: 1.8
+# Author: P3TERX
+# Blog: https://p3terx.com
+#=================================================
+ 
+downloadpath='/usr/local/caddy/www/file' #Aria2下载目录
+name='remote' #配置Rclone时填写的name
+folder='/backup' #网盘里的文件夹，留空为整个网盘。
+retry_num=3 #上传失败重试次数
+ 
+#=================下面不需要修改===================
+filepath=$3 #Aria2传递给脚本的文件路径。BT下载有多个文件时该值为文件夹内第一个文件，如/root/Download/a/b/1.mp4
+rdp=${filepath#${downloadpath}/} #路径转换，去掉开头的下载路径。
+path=${downloadpath}/${rdp%%/*} #路径转换。下载文件夹时为顶层文件夹路径，普通单文件下载时与文件路径相同。
+ 
+Task_INFO(){
+echo
+echo -e "[\033[1;32mUPLOAD\033[0m] Task information:"
+echo -e "————————– [\033[1;33mINFO\033[0m] ————————–"
+echo -e "\033[1;35mDownload path：\033[0m${downloadpath}"
+echo -e "\033[1;35mFile path: \033[0m${filepath}"
+echo -e "\033[1;35mUpload path: \033[0m${uploadpath}"
+echo -e "\033[1;35mRemote path：\033[0m${remotepath}"
+echo -e "————————– [\033[1;33mINFO\033[0m] ————————–"
+echo
+}
+ 
+Upload(){
+retry=0
+while [ $retry -le $retry_num -a -e "${uploadpath}" ]; do
+[ $retry != 0 ] && echo && echo -e "Upload failed! Retry ${retry}/${retry_num} …" && echo
+rclone move -v "${uploadpath}" "${remotepath}"
+rclone rmdirs -v "${downloadpath}" –leave-root
+retry=$(($retry+1))
 done
+[ -e "${uploadpath}" ] && echo && echo -e "Upload failed: ${uploadpath}" && echo
+[ -e "${path}".aria2 ] && rm -vf "${path}".aria2
+[ -e "${filepath}".aria2 ] && rm -vf "${filepath}".aria2
+}
+ 
+if [ $2 -eq 0 ]
+then
+exit 0
+fi
+ 
+echo && echo -e " \033[1;33mU P L O A D ! ! !\033[0m" && echo
+echo && echo -e " \033[1;32mU P L O A D ! ! !\033[0m" && echo
+echo && echo -e " \033[1;35mU P L O A D ! ! !\033[0m" && echo
+ 
+if [ "$path" = "$filepath" ] && [ $2 -eq 1 ] #普通单文件下载，移动文件到设定的网盘文件夹。
+then
+uploadpath=${filepath}
+remotepath="${name}:${folder}"
+Task_INFO
+Upload
+exit 0
+elif [ "$path" != "$filepath" ] && [ $2 -gt 1 ] #BT下载（文件夹内文件数大于1），移动整个文件夹到设定的网盘文件夹。
+then
+uploadpath=${path}
+remotepath="${name}:${folder}/${rdp%%/*}"
+Task_INFO
+Upload
+exit 0
+elif [ "$path" != "$filepath" ] && [ $2 -eq 1 ] #第三方度盘工具下载（子文件夹或多级目录等情况下的单文件下载）、BT下载（文件夹内文件数等于1），移动文件到设定的网盘文件夹下的相同路径文件夹。
+then
+uploadpath=${filepath}
+remotepath="${name}:${folder}/${rdp%/*}"
+Task_INFO
+Upload
+exit 0
+fi
+Task_INFO
+
 ```
 
 保存后给予执行权限  
-```chmod +x /root/rcloneupload.sh```
+```chmod +x autoupload.sh```
+
+
+编辑aria2的配置文件   
+```
+nano /root/.aria2c/aria2.conf  
+on-download-complete=/root/autoupload.sh  
+/etc/init.d/aria2 restart
+```  
+
+
+
