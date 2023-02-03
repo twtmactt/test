@@ -1,4 +1,6 @@
 1.安装docker和docker compose  
+https://github.com/twtmactt/test/blob/master/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md  
+
 2. 创建安装目录  
 ```
 mkdir -p /root/data/docker_data/alltube
