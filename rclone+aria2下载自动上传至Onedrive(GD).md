@@ -119,4 +119,14 @@ on-download-complete=/root/autoupload.sh
 ```  
 
 
+每月自动删除存留资源参考  
+创建文件auto-del-aria2-download.sh  
+内容：（downloads是下载目录）  
+#!/bin/sh
+find downloads -type f | xargs rm -rf  
+crontab -e定时执行  
+0 2 1 * * auto-del-aria2-download.sh > /dev/null 2>&1
+
+
+
 
