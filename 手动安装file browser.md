@@ -1,4 +1,4 @@
-1.安装docker
+1.安装docker  
 2.下载filebrowser镜像  
 ```
 docker pull filebrowser/filebrowser
