@@ -1,4 +1,6 @@
 ## 1.安装nginx  
+https://github.com/twtmactt/test/blob/master/%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BAVMess%2BWS(websocket)%2BTLS.md  
+
 ## 2.修改配置文件  
 注： 不同版本的nginx配置文件可能有区别，我的是nginx/1.18.0，配置文件/etc/nginx/sites-enabled/default。  
 或者你的配置文件可能在/etc/nginx/conf.d/default.conf（自测是在/etc/nginx/sites-enabled/default）
