@@ -16,7 +16,7 @@ mkdir /root/GoogleDrive
 
 #挂载为磁盘  
 ```
-rclone mount DriveName:Folder LocalFolder --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000
+rclone mount codesofun:share /data/GoogleDrive --allow-other --allow-non-empty --vfs-cache-mode writes &
 ```
 
 DriveName为初始化配置填的name，Folder为Google Drive里的文件夹，LocalFolder为VPS上的本地文件夹。  
@@ -29,23 +29,24 @@ fusermount -qzu LocalFolder
 自启动  
 1、添加并编辑脚本  
 ```
-nano rcloned
-```
+command="mount codesofun:share /data/GoogleDrive --allow-other --allow-non-empty --vfs-cache-mode writes &"  
+cat > /etc/systemd/system/rclone.service <<EOF
+[Unit]
+Description=Rclone
+After=network-online.target
 
-添加代码https://github.com/twtmactt/test/blob/master/rcloned%E6%8C%82%E8%BD%BD%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E8%84%9A%E6%9C%AC  
+[Service]
+Type=simple
+ExecStart=$(command -v rclone) ${command}
+Restart=on-abort
+User=root
 
-修改以下内容：  
-NAME=""  #rclone name名，及配置时输入的Name  
-REMOTE=''  #远程文件夹，Google Drive网盘里的挂载的一个文件夹  
-LOCAL=''  #挂载地址，VPS本地挂载目录  
+[Install]
+WantedBy=default.target
+EOF  
 
-2.设定自启  
-```
-mv rcloned /etc/init.d/rcloned
-chmod +x /etc/init.d/rcloned
-nano /ect/rc.d/rc.local
-在末尾加入一行 bash /ect/init.d/rcloned start
-chmod +x /ect/rc.d/rc.local
-bash /ect/init.d/rcloned status
+systemctl start rclone  
+
+systemctl enable rclone
 ```
 
