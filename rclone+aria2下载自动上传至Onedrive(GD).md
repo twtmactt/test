@@ -13,7 +13,7 @@ wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/dou
 然后解压出来，比如我解压到D盘，文件夹命名rclone，此时点击Win+R，然后输入cmd，确定。再输入以下命令：
 ```
 cd /d d:\rclone
-rclone authorize "onedrive"
+rclone authorize "onedrive" "Client_ID" "Client_secret"
 ```
 复制token:  
 {"access_token":"xxxx"}  
