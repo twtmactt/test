@@ -29,24 +29,24 @@ fusermount -qzu LocalFolder
 自启动  
 1、添加并编辑脚本  
 ```
-command="mount codesofun:share /data/GoogleDrive --allow-other --allow-non-empty --vfs-cache-mode writes &"  
+command="mount codesofun:share /data/GoogleDrive --allow-other --allow-non-empty --vfs-cache-mode writes &"    
+
 cat > /etc/systemd/system/rclone.service <<EOF
 [Unit]
 Description=Rclone
 After=network-online.target
-
+ 
 [Service]
 Type=simple
 ExecStart=$(command -v rclone) ${command}
 Restart=on-abort
 User=root
-
+ 
 [Install]
 WantedBy=default.target
-EOF  
+EOF
 
 systemctl start rclone  
-
 systemctl enable rclone
 ```
 
