@@ -2,7 +2,7 @@
 1.安装docker并开启端口  
 
 2.客户端授权（上传GD跳过这一步）  
-在本地Windows电脑上下载rclone，[下载地址](https://rclone.org/downloads/)。
+在本地Windows电脑上下载rclone，[下载地址](https://rclone.org/downloads/)。  
 然后解压出来，比如我解压到D盘，文件夹命名rclone，此时点击Win+R，然后输入cmd，确定。再输入以下命令：  
 ```
 cd /d d:\rclone
