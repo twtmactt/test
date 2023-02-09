@@ -5,11 +5,11 @@ wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/dou
 
 2.安装rclone  
 ```sudo -v ; curl https://rclone.org/install.sh | sudo bash```  
-官方地址：https://rclone.org/downloads/
+[官方地址](https://rclone.org/downloads/)
 
 
 3.客户端授权  
-在本地Windows电脑上下载rclone，下载地址：https://rclone.org/downloads/。   
+在本地Windows电脑上下载rclone，[下载地址](https://rclone.org/downloads/)。   
 然后解压出来，比如我解压到D盘，文件夹命名rclone，此时点击Win+R，然后输入cmd，确定。再输入以下命令：
 ```
 cd /d d:\rclone
