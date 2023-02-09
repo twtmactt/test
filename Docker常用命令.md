@@ -10,7 +10,7 @@ snap install docker
 ```
 wget -qO- get.docker.com | bash 
  ```  
-法二：官方https://docs.docker.com/engine/install/  
+法二：[官方地址](https://docs.docker.com/engine/install/)  
 
 3.启动docker/允许开机启动  
  ```  
