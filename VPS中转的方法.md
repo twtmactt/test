@@ -1,7 +1,7 @@
 两台VPS：VPS1为常用不解锁机，VPS2为流媒体解锁机  
 1、在VPS2安装v2ray，开启端口，安装BBR  
 2、在VPS1上搭建VMess+WS(websocket)+TLS    
-步骤参考https://github.com/twtmactt/test/blob/master/%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BAVMess%2BWS(websocket)%2BTLS  
+   [步骤参考](https://github.com/twtmactt/test/blob/master/%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BAVMess%2BWS(websocket)%2BTLS)    
 修改部分如下：
 编辑配置文件的内容改为
 ```
