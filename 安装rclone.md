@@ -1,4 +1,4 @@
-软件地址https://github.com/rclone/rclone/releases  
+[点我到达软件地址](https://github.com/rclone/rclone/releases)  
 Debian / Ubuntu 安装：（如果安装特定版本，地址和解压要改）  
 ```
 wget https://downloads.rclone.org/rclone-current-linux-amd64.zip  
