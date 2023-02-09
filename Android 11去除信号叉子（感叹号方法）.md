@@ -2,8 +2,7 @@
 2. 下载适用于 Windows 的 SDK Platform-Tools  
  [官方网站](https://developer.android.com/studio/releases/platform-tools.html)    
  [下载地址](https://dl.google.com/android/repository/platform-tools_r30.0.5-windows.zip)
-    
-    下载得到的应该是platform-tools_r30.0.5-windows.zip文件，将其解压。
+ 下载得到的应该是platform-tools_r30.0.5-windows.zip文件，将其解压。
     
 3. 将里面名称中含有adb.exe和fastboot.exe都复制到 c:/windows/system32
 4. 
