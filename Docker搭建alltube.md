@@ -1,5 +1,5 @@
-1.安装docker和docker compose  
-[教程地址](https://github.com/twtmactt/test/blob/master/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md)  
+1. 安装docker和docker compose  
+   [教程地址](https://github.com/twtmactt/test/blob/master/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md)  
 
 2. 创建安装目录  
 ```
