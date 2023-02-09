@@ -3,7 +3,7 @@
 apt update
 ```
 
-BBR      https://github.com/twtmactt/test/blob/master/%E5%BC%80%E5%90%AFbbr  
+[安装BBR](https://github.com/twtmactt/test/blob/master/%E5%BC%80%E5%90%AFbbr)  
 
 二、安装Nginx并配置  
 ```
