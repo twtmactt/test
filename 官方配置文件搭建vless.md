@@ -7,7 +7,9 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 ```
 
 # 3.编辑配置文件的内容  
-```nano /usr/local/etc/v2ray/config.json```  
+```
+nano /usr/local/etc/v2ray/config.json
+```  
 ```
 {
   "log": {
