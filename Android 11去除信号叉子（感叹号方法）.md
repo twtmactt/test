@@ -1,11 +1,11 @@
-1.首先开启usb调试，然后用数据线连接电脑和手机。
+1.首先开启usb调试，然后用数据线连接电脑和手机。  
 2. 下载适用于 Windows 的 SDK Platform-Tools  
  [官方网站](https://developer.android.com/studio/releases/platform-tools.html)    
  [下载地址](https://dl.google.com/android/repository/platform-tools_r30.0.5-windows.zip)  
  下载得到的应该是platform-tools_r30.0.5-windows.zip文件，将其解压。
     
 3. 将里面名称中含有adb.exe和fastboot.exe都复制到 c:/windows/system32
-4. 
+
    将名称中含有adb的所有文件复制到 c:/windows/system
    
    将所有名字含adb的文件放Windows/SysWOW64下
