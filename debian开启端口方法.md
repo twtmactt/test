@@ -1,7 +1,6 @@
 首先安装 iptables（通常系统都会自带，如果没有就需要安装），使用以下命令  
 ```
 sudo apt-get update
-
 sudo apt-get install iptables
 ```
 
@@ -22,7 +21,6 @@ iptables -A INPUT -p tcp --dport 51000：60000 -j ACCEPT
 输入以下命令保存规则持续生效
 ```
 netfilter-persistent save
-
 netfilter-persistent reload
 ```
 完成之后端口就会持续开放。
