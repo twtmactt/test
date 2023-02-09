@@ -10,7 +10,8 @@ wget -O box.sh https://raw.githubusercontent.com/BlueSkyXN/SKY-BOX/main/box.sh &
 ```
 
 ## 安装docker,docker-compose  
-https://github.com/twtmactt/test/blob/master/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md  
+   [点我查看安装方法](https://github.com/twtmactt/test/blob/master/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md)  
+  
 
 ## 创建安装目录及docker-compose文件  
 ```
