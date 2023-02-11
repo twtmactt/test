@@ -43,6 +43,6 @@ async function handleRequest(request) {
 服务选择刚创建的Worker（tg），环境选择production，必须先创建Worker再来关联域名，表示通过这个自定义的域名来访问Worker服务  
 
 3.使用域名  
-直接使用     tg.woaixx.cf   代理tg机器人
+直接使用`https://tg.woaixx.cf`代理tg机器人
 
 
