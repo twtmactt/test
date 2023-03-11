@@ -29,7 +29,7 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 ```
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install-geodata
 ```  
-- 卸载
+- 卸载命令
 ```
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
 ```  
