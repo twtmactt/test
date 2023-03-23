@@ -36,12 +36,12 @@ systemctl stop qbt  #停止
 systemctl status qbt  #软件运行状态查询 
 ```  
 
-ttorrent就算安装成功了，打开浏览器，输入：IP:8080，就可以打开qBittorrent的网页界面了  
+qBittorrent就算安装成功了，打开浏览器，输入：IP:8080，就可以打开qBittorrent的网页界面了  
 用户名：admin  
 密码：adminadmin  
 
 ### 3. 配置自动上传  
-- root目录下新建上传脚本  
+root目录下新建上传脚本  
 ```
 nano qb_auto.sh  
 ```
