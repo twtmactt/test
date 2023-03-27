@@ -77,4 +77,10 @@ docker push  想要改的REPOSITORY:tag
 
 docker镜像下载到本地（home位置可以更改）
 docker save imageid > /home/容器名.tar
+```  
+
+进入容器  
 ```
+sudo docker exec -it 容器id /bin/bash
+```  
+
