@@ -83,4 +83,3 @@ docker save imageid > /home/容器名.tar
 ```
 sudo docker exec -it 容器id /bin/bash
 ```  
-
