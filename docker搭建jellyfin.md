@@ -124,7 +124,7 @@ mkdir fonts
  最后重启一下jellyfin  
  
  如果是搭建emby，方法类似，docker-compose文件如下（使用lovechen镜像）  
- ```
+```
  version: "2.3"
 services:
   emby:
@@ -143,7 +143,7 @@ services:
       - 8096:8096
       - 8920:8920 #optional
     restart: unless-stopped  
-    ```
+```
 
 
 
