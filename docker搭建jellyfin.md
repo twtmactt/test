@@ -125,12 +125,12 @@ mkdir fonts
  
  如果是搭建emby，方法类似，docker-compose文件如下（使用lovechen镜像）  
 ```
- version: "2.3"
+version: "2.3"
 services:
   emby:
     image: lovechen/embyserver:latest
     container_name: emby
-	network_mode: bridge
+    network_mode: bridge
     environment:
       - PUID=0
       - PGID=0
