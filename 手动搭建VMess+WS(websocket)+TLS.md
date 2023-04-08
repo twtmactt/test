@@ -3,7 +3,7 @@
 apt update
 ```
 
-开启443 80 inbounds所需端口，见iptables开启方法  
+开启8443 443 80 inbounds所需端口，见iptables开启方法  
 
 安装v2ray（见官方脚本）  
 ```
@@ -57,57 +57,6 @@ systemctl enable v2ray
 apt install -y nginx
 ```
 
-新建网页目录（这里在假设是/root/www）  
-```
-mkdir -p /root/www
-```
-
-新建首页  
-```
-nano /root/www/index.html
-```
-
-内容如下：  
-```
-<!DOCTYPE html>
-<html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> #解决中文乱码
-<head>
-<title>学习</title>
-</head>
-<body>
-<h1>文章标题</h1>
-<p><font color="red">文章内容</font></p>
-<img src="此处为图片的地址">
-<p>点此链接进行更多学习<a href="链接网址">链接名称</a></p>
-<body style="background-color:lavender;">
-<p style="background-color:indianred;">
-<br>
-</body>
-</html>
-```
-
-新建配置文件  
-注： 不同版本的nginx配置文件可能有区别，我的是nginx/1.18.0，配置文件/etc/nginx/sites-enabled/default。  
-或者你的配置文件可能在/etc/nginx/conf.d/default.conf（自测是在/etc/nginx/sites-enabled/default）  
-```
-nano /etc/nginx/sites-enabled/default
-```
-
-如下内容(可把原来的全删了)  
-```
-server{
-    listen 80;
-    server_name 域名;
-    index index.html;
-    root /root/www;
-}
-```
-```
-nano /etc/nginx/nginx.conf  
-第一行user www-data改为user root
-```
-
 启动nginx服务  
 ```
 systemctl start nginx
@@ -145,20 +94,27 @@ certbot --nginx
 nano /etc/nginx/sites-enabled/default
 ```
 
-在第一个server中添加如下内容  
-   ## 添加这部分内容,11055对应/usr/local/etc/v2ray/config.json 里面inbounds端口  
-   ## /tech客户端配置的时候需要,对应/usr/local/etc/v2ray/config.json streamSettings里的path  
+添加一个server，加如下内容  
 ```
-    location /tech {
-        proxy_redirect off;
-        proxy_pass http://127.0.0.1:11055;
+server {
+    listen 8443 ssl;
+    server_name yourdomain.com; // 替换为你的域名
+
+    ssl_certificate 你的SSL证书的路径; // 替换为 SSL 证书的路径
+    ssl_certificate_key 你的私钥文件的路径; // 替换为私钥文件的路径
+
+    location / {
+        proxy_pass http://127.0.0.1:11055; // 替换为 V2Ray 监听的地址和端口
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $http_host;
     }
+}
 ```
-
+注：11055对应/usr/local/etc/v2ray/config.json 里面inbounds端口  
+   /tech客户端配置的时候需要,对应/usr/local/etc/v2ray/config.json streamSettings里的path  
+   
 重启nginx  
 ```
 systemctl restart nginx
