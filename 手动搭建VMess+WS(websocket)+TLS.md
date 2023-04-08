@@ -3,11 +3,12 @@
 apt update
 ```
 
-开启8443 443 80 inbounds所需端口，见iptables开启方法  
+开启8443 443 80 inbounds所需端口，见iptables开启方法[跳转链接](https://github.com/twtmactt/test/blob/master/debian%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E6%96%B9%E6%B3%95.md)  
 
 安装v2ray（见官方脚本）  
 ```
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)
 ```
 
 编辑配置文件的内容  
