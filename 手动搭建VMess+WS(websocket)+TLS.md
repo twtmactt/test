@@ -45,7 +45,11 @@ nano /usr/local/etc/v2ray/config.json
         }
     ]
 }
+```  
+检查配置是否正确  
 ```
+/usr/local/bin/v2ray -test -config /usr/local/etc/v2ray/config.json  
+```  
 
 启动v2ray服务  
 ```
