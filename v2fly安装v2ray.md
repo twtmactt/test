@@ -21,12 +21,19 @@ nano config.json（粘贴需要的内容）
         "loglevel": "warning"
     },
     "routing": {
-        "domainStrategy": "AsIs",
+        "domainStrategy": "IPIfNonMatch",
         "rules": [
             {
                 "type": "field",
                 "ip": [
                     "geoip:private"
+                ],
+                "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:cn"
                 ],
                 "outboundTag": "block"
             }
