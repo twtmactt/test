@@ -63,6 +63,13 @@ nano config.json（粘贴需要的内容）
                     "geoip:private"
                 ],
                 "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:cn"
+                ],
+                "outboundTag": "block"
             }
         ]
     },
