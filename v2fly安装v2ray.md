@@ -35,7 +35,7 @@ nano config.json（粘贴需要的内容）
                 "ip": [
                     "geoip:cn"
                 ],
-                "outboundTag": "direct"
+                "outboundTag": "block"
             }
         ]
     },
