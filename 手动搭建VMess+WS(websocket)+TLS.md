@@ -20,6 +20,25 @@ nano /usr/local/etc/v2ray/config.json
         "error": "/var/log/v2ray/error.log",
         "loglevel": "warning"
     },
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:cn"
+                ],
+                "outboundTag": "direct"
+            }
+        ]
+    },
     "inbounds": [{
             "port": 11055,  #自定义端口
             "protocol": "vmess",
@@ -40,8 +59,14 @@ nano /usr/local/etc/v2ray/config.json
         }
     ],
 
-    "outbounds": [{
-            "protocol": "freedom"
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
         }
     ]
 }
