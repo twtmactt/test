@@ -59,7 +59,7 @@ nano /usr/local/etc/xray/config.json
                 "ip": [
                     "geoip:cn"
                 ],
-                "outboundTag": "direct"
+                "outboundTag": "block"
             }
         ]
     },
