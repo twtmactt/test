@@ -35,7 +35,7 @@ nano /usr/local/etc/v2ray/config.json
                 "ip": [
                     "geoip:cn"
                 ],
-                "outboundTag": "direct"
+                "outboundTag": "block"
             }
         ]
     },
