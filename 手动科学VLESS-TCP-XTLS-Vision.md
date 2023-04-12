@@ -50,9 +50,16 @@ nano /usr/local/etc/xray/config.json
             {
                 "type": "field",
                 "ip": [
-                    "geoip:cn"
+                    "geoip:private"
                 ],
                 "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:cn"
+                ],
+                "outboundTag": "direct"
             }
         ]
     },
