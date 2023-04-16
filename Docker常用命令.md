@@ -83,3 +83,8 @@ docker save imageid > /home/容器名.tar
 ```
 sudo docker exec -it 容器id /bin/bash
 ```  
+
+已有容器限制cpu和内存使用  
+```
+docker container update  NAME  --cpus="2" --memory="2g" --memory-swap="-1"  
+```  
