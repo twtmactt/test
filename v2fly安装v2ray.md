@@ -12,9 +12,8 @@ apt install nano
 ```bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh)```
 
 ```
-cd /usr/local/etc/v2ray
-rm *.json
-nano config.json（粘贴需要的内容）
+
+nano /usr/local/etc/v2ray/config.json（粘贴需要的内容）
 
 {
     "log": {
