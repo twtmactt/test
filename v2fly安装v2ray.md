@@ -67,9 +67,7 @@ nano /usr/local/etc/v2ray/config.json（粘贴需要的内容）
     ]
 }
 ```
-
-开启bbr，开启端口  
-
+启用v2ray
 ```
 systemctl enable v2ray
 systemctl start v2ray
@@ -78,14 +76,20 @@ systemctl start v2ray
 移除  
 ```
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --remove
-```  
 ```
-firewall-cmd --zone=public --add-port=/tcp --permanent    //永久将xxx端口加入开启规则
+开启端口
+```
+apt install firewalld
+firewall-cmd --zone=public --add-port=端口/tcp --permanent    //永久将xxx端口加入开启规则
 firewall-cmd --reload
 ```
-
-(for centos : systemctl enable v2ray)
-$sudo apt-get remove vim-common
+开启bbr加速  
+```
+wget -N --no-check-certificate "https://raw.githubusercontent.com/dlxg/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
+```
+以下没用  
+(for centos : systemctl enable v2ray)  
+$sudo apt-get remove vim-common  
 $sudo apt-get install vim
 
-wget -N --no-check-certificate "https://raw.githubusercontent.com/dlxg/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
+
