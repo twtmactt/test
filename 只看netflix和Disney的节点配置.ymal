@@ -11,9 +11,9 @@
                 "domain": ["geosite:netflix"]
             },
             {
-        "type": "field",
-        "outboundTag": "direct",
-        "domain": [
+               "type": "field",
+               "outboundTag": "direct",
+               "domain": [
                  "geosite:disney",
                  "disney.asia",
                  "disney.be",
