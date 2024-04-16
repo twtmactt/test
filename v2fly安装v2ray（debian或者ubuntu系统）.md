@@ -33,6 +33,9 @@ nano /usr/local/etc/v2ray/config.json
             },
             {
                 "type": "field",
+                "protocol": [
+                 "bittorrent"
+                ],
                 "ip": [
                     "geoip:cn"
                 ],
