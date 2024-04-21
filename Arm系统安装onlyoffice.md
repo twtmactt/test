@@ -1,3 +1,4 @@
+[官方文档直达链接](https://helpcenter.onlyoffice.com/installation/docs-community-install-docker-arm64.aspx)
 ## 新建文件  
 ```mkdir -p /root/onlyoffice```  
 ## 拉取镜像并安装  
