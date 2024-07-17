@@ -19,6 +19,8 @@ mkdir /root/GoogleDrive
 rclone mount codesofun:share /data/GoogleDrive --allow-other --allow-non-empty --vfs-cache-mode writes &
 或者
 rclone mount DriveName:Folder LocalFolder --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000
+webdav挂载示例
+rclone mount codesofun:/share /data/GoogleDrive --allow-other --allow-non-empty --vfs-cache-mode writes &
 ```
 
 DriveName为初始化配置填的name，Folder为Google Drive里的文件夹，LocalFolder为VPS上的本地文件夹。  
