@@ -56,5 +56,6 @@ systemctl enable rclone
 ### Rclone复制/移动文件参考命令  
 ```
 rclone copy -v  ode5:/movies/Movies 115:/115/Movies --transfers=3  --progress
+rclone copy -v '/root/hdd/xunlei' '115:/115/Tvshows'  --transfers=3  --progress
 ```
 其中 "ode5:/" "115:/115"的这种格式是我只用rclone添加了储存，并未挂载到vps上，如果已挂载，可能会有所区别，[参考文章](https://p3terx.com/archives/rclone-advanced-user-manual-common-command-parameters.html)
