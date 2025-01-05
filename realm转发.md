@@ -21,6 +21,7 @@ listen = '0.0.0.0:10002'
 remote = '1.1.1.1:23457'
 ```
 ### 创建service服务项  
+```nano /etc/systemd/system/realm.service```  
 ```
 [Unit]
 Description=realm
