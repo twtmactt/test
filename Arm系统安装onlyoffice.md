@@ -75,3 +75,22 @@ sudo docker run -i -t -d -p 80:80 --restart=always \
 docker cp /root/onlyoffice/local.json  0ca9:/etc/onlyoffice/documentserver
 ```  
 ### 重新启动容器
+
+docker-compose配置参考  
+```
+version: '3'
+services:
+  onlyoffice:
+    container_name: onlyoffice
+    image: onlyoffice/documentserver-de:latest
+    restart: always
+    ports:
+     - "8081:80"
+    environment:
+     - JWT_ENABLED=false
+    volumes:
+     - /root/onlyoffice/logs:/var/log/onlyoffice
+     - /root/onlyoffice/data:/var/www/onlyoffice/Data
+     - /root/onlyoffice/lib:/var/lib/onlyoffice
+     - /root/onlyoffice/db:/var/lib/postgresql
+```  
