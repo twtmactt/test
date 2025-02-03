@@ -188,5 +188,5 @@ nano /usr/local/etc/v2ray/config.json
 ```
 
 电脑端配置图  
-![image](https://fb.334015.xyz/api/preview/big/%E6%95%99%E7%A8%8B%E7%94%A8%E5%9B%BE%E7%89%87/2222.png?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJlbiIsInZpZXdNb2RlIjoibW9zYWljIGdhbGxlcnkiLCJzaW5nbGVDbGljayI6ZmFsc2UsInBlcm0iOnsiYWRtaW4iOnRydWUsImV4ZWN1dGUiOnRydWUsImNyZWF0ZSI6dHJ1ZSwicmVuYW1lIjp0cnVlLCJtb2RpZnkiOnRydWUsImRlbGV0ZSI6dHJ1ZSwic2hhcmUiOnRydWUsImRvd25sb2FkIjp0cnVlfSwiY29tbWFuZHMiOltdLCJsb2NrUGFzc3dvcmQiOmZhbHNlLCJoaWRlRG90ZmlsZXMiOnRydWUsImRhdGVGb3JtYXQiOmZhbHNlfSwiaXNzIjoiRmlsZSBCcm93c2VyIiwiZXhwIjoxNzM4NTA5NTUxLCJpYXQiOjE3Mzg1MDIzNTF9.-H_Wzu3lhjPT43yVYxQfMLmgYZK0-bgffndNU84wJIM&inline=true&key=1738501997624)
+![image](https://pic.334015.xyz/i/2025/02/03/ftwqan.png)
 
