@@ -183,7 +183,7 @@ echo "Cookie:${cookie}" >> ${log_dir}/qb.log
 echo -e "-------------------------------------------------------------\n" >> ${log_dir}/qb.log
 ```  
 注：如下图片处需要修改，/media/为我Onedrive网盘中根目录下的media文件夹，根据你的实际情况修改，注意最后的“/”一定要有.  
-![](https://fb.334015.xyz/api/preview/big/%E6%95%99%E7%A8%8B%E7%94%A8%E5%9B%BE%E7%89%87/image223.png?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJlbiIsInZpZXdNb2RlIjoibW9zYWljIGdhbGxlcnkiLCJzaW5nbGVDbGljayI6ZmFsc2UsInBlcm0iOnsiYWRtaW4iOnRydWUsImV4ZWN1dGUiOnRydWUsImNyZWF0ZSI6dHJ1ZSwicmVuYW1lIjp0cnVlLCJtb2RpZnkiOnRydWUsImRlbGV0ZSI6dHJ1ZSwic2hhcmUiOnRydWUsImRvd25sb2FkIjp0cnVlfSwiY29tbWFuZHMiOltdLCJsb2NrUGFzc3dvcmQiOmZhbHNlLCJoaWRlRG90ZmlsZXMiOnRydWUsImRhdGVGb3JtYXQiOmZhbHNlfSwiaXNzIjoiRmlsZSBCcm93c2VyIiwiZXhwIjoxNzM4NTEwMTk3LCJpYXQiOjE3Mzg1MDI5OTd9.nYf8bBEs5eUm-r2OtWnwifsE2hWFluBAygdq8xgj7OA&inline=true&key=1738502024385)  
+![](https://pic.334015.xyz/i/2025/02/03/gxekfe.png)  
 
 赋予脚本权限  
 ```
