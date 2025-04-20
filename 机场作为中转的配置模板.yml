@@ -1,0 +1,62 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: :9090
+dns:
+  enabled: true
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  fallback:
+    - 8.8.8.8
+    - 8.8.4.4
+    - tls://1.0.0.1:853
+    - tls://dns.google:853
+proxy-providers:
+  Jichang: #与下方名字相同
+    type: http
+    url: #机场节点订阅转换后的地址
+    path: ./Proxy/Jichang.yml
+    interval: 86400
+    health-check:
+      enable: false
+      interval: 600
+      url: https://www.gstatic.com/generate_204
+  SG:          #筛选出机场SG节点，跟你的落地节点匹配即可
+    type: file # 这⾥是 file了！因为不需要再从⽹络获取
+    path: ./Proxy/Jichang.yml #这⾥路径就填和上⾯⼀样的
+    filter: "SG|新加坡" #正则表达式
+    health-check:
+    enable: true
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+proxies: # 把你的自建节点信息填入下方
+    - 自建1
+    - 自建2
+proxy-groups:
+  - name: 机场
+    type: select
+    use:
+      - Jichang #与上方名字相同
+  - name: SG #上方筛选出的SG节点
+    type: select
+    use:
+      - SG
+  - name: Private Relay
+    type: relay
+    proxies:
+      - SG
+      - 自建节点
+  - name: proxy
+    type: select
+    proxies:
+      - 自建1
+      - 自建2
+      - Private Relay
+  - name: Final
+    type: select
+    proxies:
+      - proxy
+      - DIRECT
